@@ -2,7 +2,7 @@
 
 repo 구상
 ```
-churn-predictor/
+project/
 │
 ├── data/                    # 데이터셋 (크면 .gitignore)
 │   └── employees.csv
