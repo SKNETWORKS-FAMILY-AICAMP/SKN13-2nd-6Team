@@ -1,6 +1,7 @@
 # SKN13-2nd-6Team
 
 repo 구상
+![image](https://github.com/user-attachments/assets/62bb80d0-361f-4466-98fa-1d72f0d3440f)
 
 ```
 churn-predictor/
