@@ -69,25 +69,77 @@ if menu == "이탈 예측 조회":
             st.metric("이탈 가능성", f"{proba:.2%}")
             st.success(level)
 
-
-         # 반원형 게이지 차트
-        fig = go.Figure(go.Indicator(
+        # 반원형 게이지 차트
+        # 배경
+        fig1 = go.Figure(go.Indicator(
             mode="gauge+number",
             value=proba * 100,
             number = {'suffix': "%"},
             domain={'x': [0, 1], 'y': [0.5, 1]},
             title={'text': '이탈 확률', 'font': {'size': 24}},
             gauge={
-                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "gray"},
-                'bar' : {'color' : 'gray'},
-                # "steps":[{"range": [0, 35], "color": "lightgreen" }, {"range": [36, 70], "color": "yellow"}, {"range": [71, 100], "color": "red"}],
-                'bgcolor': "white",
-                'borderwidth': 1,
-                'bordercolor': "gray"
+                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "gray"}, 
+                'bar' : {'color' : 'rgba(0,0,0,0)'},
+                "steps":[{"range": [0, 35], "color": "lightgreen"}, {"range": [36, 70], "color": "yellow"}, {"range": [71, 100], "color": "red"}],
+                'bgcolor': 'rgba(0,0,0,0)' # 투명
             }
         ))
-        fig.update_layout(margin={'t':80, 'b':0, 'l':0, 'r':0}, height=350)
-        st.plotly_chart(fig, use_container_width=True)
+
+        # 막대그래프 흰색
+        fig2 = go.Figure(go.Indicator(
+             mode="gauge",
+             value=proba * 100,
+             domain={'x': [0, 1], 'y': [0.5, 1]},
+            #  title={'text': '이탈 확률', 'font': {'size': 24}},
+             gauge={
+                 'axis': {'range': [100, 0], 'visible' : False},
+                 'bar' : {'color' : 'white','thickness': 0.99},
+                 'bgcolor': 'rgba(0,0,0,0)',
+             }
+         ))
+
+        
+        
+        # 1) 새 Figure를 빈 채로 생성
+        combined = go.Figure()
+
+        # 2) 배경용 트레이스(fig1.data)부터 먼저 추가
+        combined.add_traces(fig1.data)
+
+        # 3) 흰색 바(fig2.data[0])를 그 위에 추가
+        combined.add_trace(fig2.data[0])
+
+        # 4) 레이아웃 조정
+        combined.update_layout( margin={'t':80,'b':0,'l':0,'r':0}, height=350)
+
+        # 5) 스트림릿에 렌더링
+        st.plotly_chart(combined, use_container_width=True)
+
+
+
+
+
+
+
+        #  # 반원형 게이지 차트
+        # fig = go.Figure(go.Indicator(
+        #     mode="gauge+number",
+        #     value=proba * 100,
+        #     number = {'suffix': "%"},
+        #     domain={'x': [0, 1], 'y': [0.5, 1]},
+        #     title={'text': '이탈 확률', 'font': {'size': 24}},
+        #     gauge={
+        #         'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "gray"},
+        #         'bar' : 
+        #         # 'bar' : {'color' : 'gray'},
+        #         # "steps":[{"range": [0, 35], "color": "lightgreen" }, {"range": [36, 70], "color": "yellow"}, {"range": [71, 100], "color": "red"}],
+        #         'bgcolor': "white",
+        #         'borderwidth': 1,
+        #         'bordercolor': "gray"
+        #     }
+        # ))
+        # fig.update_layout(margin={'t':80, 'b':0, 'l':0, 'r':0}, height=350)
+        # st.plotly_chart(fig, use_container_width=True)
 
         # 상위 중요 변수 출력 예시
         st.subheader("상위 주요 요인")
