@@ -4,6 +4,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+from streamlit_echarts import st_echarts
 
 
 st.set_page_config(page_title="이탈 예측 시스템", layout="wide")
@@ -54,12 +55,12 @@ if menu == "이탈 예측 조회":
 
 
         # 결과 등급화
-        if proba > 0.8:
+        if proba > 0.7:
             level = "❗ 매우 높은 이탈 위험"
             st.metric("이탈 가능성", f"{proba:.2%}") 
             st.error(level)
 
-        elif proba > 0.5:
+        elif proba > 0.4:
             level = "⚠️ 주의 필요"
             st.metric("이탈 가능성", f"{proba:.2%}")
             st.warning(level)
@@ -70,79 +71,78 @@ if menu == "이탈 예측 조회":
             st.success(level)
 
         # 반원형 게이지 차트
-        # 배경
-        fig1 = go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=proba * 100,
-            number = {'suffix': "%"},
-            domain={'x': [0, 1], 'y': [0.5, 1]},
-            title={'text': '이탈 확률', 'font': {'size': 24}},
-            gauge={
-                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "gray"}, 
-                'bar' : {'color' : 'rgba(0,0,0,0)'},
-                "steps":[{"range": [0, 35], "color": "lightgreen"}, {"range": [36, 70], "color": "yellow"}, {"range": [71, 100], "color": "red"}],
-                'bgcolor': 'rgba(0,0,0,0)' # 투명
-            }
-        ))
+        def gauge_option_fraction(val):
+            
+            pct = round(val * 100, 2)
+            # 영역 비율 (0~1)
+            r1 = 40 / 100
+            r2 = 70 / 100
+            rp = pct / 100
 
-        # 막대그래프 흰색
-        fig2 = go.Figure(go.Indicator(
-             mode="gauge",
-             value=proba * 100,
-             domain={'x': [0, 1], 'y': [0.5, 1]},
-            #  title={'text': '이탈 확률', 'font': {'size': 24}},
-             gauge={
-                 'axis': {'range': [100, 0], 'visible' : False},
-                 'bar' : {'color' : 'white','thickness': 0.99},
-                 'bgcolor': 'rgba(0,0,0,0)',
-             }
-         ))
+            # 동적 색상 구간 만들기
+            segments = []
+            if rp <= r1: # 35% 미만일 경우
+                segments = [
+            [rp, "#B7F0B1"],   # 0~pct: 초록
+            [1.0, "#ffffff"]   # 나머지: 흰색
+        ]
+            elif rp <= r2: # 35% ~70%일 경우
+                segments = [
+            [r1, "#B7F0B1"],   # 0~35%: 초록
+            [rp, "#FAED7D"],   # 35%~pct: 노랑
+            [1.0, "#ffffff"]   # 나머지: 흰색
+        ]
+            else: # 70% 이상일 경우
+                segments = [
+            [r1, "#B7F0B1"],   # 0~35%: 초록
+            [r2, "#FAED7D"],   # 35~70%: 노랑
+            [rp, "#FFA7A7"],   # 70%~pct: 빨강
+            [1.0, "#ffffff"]   # 나머지: 흰색
+        ]
 
+            return {
+        "tooltip": {"show": False},
+        "series": [{
+            "type": "gauge",
+            "startAngle": 180,
+            "endAngle": 0,
+            "min": 0,
+            "max": 100,
+            "progress": {"show": False},
+            "axisLine": {
+                "lineStyle": {
+                    "width": 60,
+                    "color": segments
+                }
+            },
+            "pointer": {"show": False},
+            "axisTick":   {"show": False},
+            "splitLine":  {"show": False},
+            "axisLabel":  {"show": False},
+            "detail": {
+                "valueAnimation": True,
+                "fontSize": 24,
+                "offsetCenter": [0, "0%"],
+                "formatter": "{value} %"
+            },
+            "title": {
+                "show": True,
+                "offsetCenter": [0, "-20%"],
+                "fontSize": 16,
+                "formatter" : "{b}"
+            
+            },
+            "data": [{"value": pct, "name": "이탈 가능성"}]
+        }]
+    }
         
-        
-        # 1) 새 Figure를 빈 채로 생성
-        combined = go.Figure()
+        # 옵션 생성 & 렌더링
+        st_echarts(gauge_option_fraction(proba))
 
-        # 2) 배경용 트레이스(fig1.data)부터 먼저 추가
-        combined.add_traces(fig1.data)
-
-        # 3) 흰색 바(fig2.data[0])를 그 위에 추가
-        combined.add_trace(fig2.data[0])
-
-        # 4) 레이아웃 조정
-        combined.update_layout( margin={'t':80,'b':0,'l':0,'r':0}, height=350)
-
-        # 5) 스트림릿에 렌더링
-        st.plotly_chart(combined, use_container_width=True)
-
-
-
-
-
-
-
-        #  # 반원형 게이지 차트
-        # fig = go.Figure(go.Indicator(
-        #     mode="gauge+number",
-        #     value=proba * 100,
-        #     number = {'suffix': "%"},
-        #     domain={'x': [0, 1], 'y': [0.5, 1]},
-        #     title={'text': '이탈 확률', 'font': {'size': 24}},
-        #     gauge={
-        #         'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "gray"},
-        #         'bar' : 
-        #         # 'bar' : {'color' : 'gray'},
-        #         # "steps":[{"range": [0, 35], "color": "lightgreen" }, {"range": [36, 70], "color": "yellow"}, {"range": [71, 100], "color": "red"}],
-        #         'bgcolor': "white",
-        #         'borderwidth': 1,
-        #         'bordercolor': "gray"
-        #     }
-        # ))
-        # fig.update_layout(margin={'t':80, 'b':0, 'l':0, 'r':0}, height=350)
-        # st.plotly_chart(fig, use_container_width=True)
-
-        # 상위 중요 변수 출력 예시
-        st.subheader("상위 주요 요인")
+        # 상위 중요 변수 출력
+        st.markdown(
+    "<h3 style='margin-top:-100px;'>상위 주요 요인</h3>",
+    unsafe_allow_html=True)
         st.write("~~")
 
 
@@ -159,13 +159,36 @@ elif menu == "대량 조회":
 
     batch_file = st.file_uploader("대량 데이터 파일 업로드", type=["csv"])
     if batch_file is not None:
+        # 1. csv 읽기
         df = pd.read_csv(batch_file)
         st.write("입력 데이터", df.head())
 
-        df["이탈 확률"] = np.random.rand(len(df))  # 예시
+        # 2. 전처리
+        # feature = df['전처리 필요한 피처명']
+        # X_Scaled = sclaer.transform(feature)
 
-        st.write("예측 결과", df[["이탈 확률"]].head())
+        # 3. 예측
+        # pred_proba(확률)
+        # pred(이탈 여부)
 
-        # 다운로드 링크
+        # 4. 결과 병합
+        # df["Prob_Yes"] = pred_proba
+        # df["Pred"] = pred
+
+        # 결과 등급 결정 함수 
+        # def categorize(prob):
+        #     if prob >= 0.7: return "High"
+        #     if prob >= 0.3:  return "Medium"
+        #     return "Low"
+        # df['Grade'] = [categorize(p) for p in pred_proba]
+
+        # 5. 화면에 일부 출력
+        # st.subheader("예측 결과 (상위 5개)")
+        # st.dataframe(df["Prob_Yes"].head(5))
+        # st.dataframe(df["Pred"].head(5))
+
+        # 6. 다운로드 링크
         csv = df.to_csv(index=False).encode("utf-8")
         st.download_button("결과 다운로드", data=csv, file_name="prediction_result.csv", mime="text/csv")
+
+
