@@ -1,20 +1,3 @@
-# streamlit_app.py
-
-import streamlit as st
-import pandas as pd
-import numpy as np
-import plotly.graph_objects as go
-from streamlit_echarts import st_echarts
-
-
-st.set_page_config(page_title="이탈 예측 시스템", layout="wide")
-
-# 사이드바 메뉴
-menu = st.sidebar.selectbox(
-    "서비스 선택", ["이탈 예측 조회", "상관관계 분석", "대량 조회"]
-)
-
-
 # 페이지 1: 이탈 예측 조회
 if menu == "이탈 예측 조회":
     st.title("이탈 예측 조회")
@@ -23,31 +6,83 @@ if menu == "이탈 예측 조회":
         st.subheader("정보 입력")
 
         # 예시 컬럼: 범위 슬라이더 및 체크박스
-        age = st.slider("age", 18, 65, 30)
-        BusinessTravel = st.checkbox("BusinessTravel 여부")
-        DailyRate = st.selectbox("DailyRate", [1, 2, 3, 4, 5])
-        Income = st.number_input("Department", 1000, 30000, step=100)
-        options = ["Research & Development", "Marketing", "Sales", "Human Resources"]
-        selection = st.segmented_control("Department", options, selection_mode="multi")
-        Married = st.toggle("Married")
+        # feature importance 상위 15개
+        left, middle, right, right2 = st.columns(4)
+        with left:
+            age = st.number_input("나이", value=30)
+
+            Education =st.selectbox("최종학력", ("고등학교 졸업", "전문대 졸업", "학사", "석사", "박사"), index=2)
+
+            EnvironmentSatisfaction = st.selectbox("업무 환경 만족도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
+
+        with middle:
+            JobInvolvement = st.selectbox("업무 몰입도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
+
+        
+            JobLevel = st.selectbox("직급", ("고위 임원", "임원", "중간 관리자", "자문위원", "사원"), index=4)
+        
+            JobSatisfaction = st.selectbox("업무 만족도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
+
+        with right:
+            MaritalStatus = st.selectbox("결혼 상태", ("미혼", "기혼", "이혼"), index=0)
+
+            NumCompaniesWorked = st.number_input("근무 회사 수", value=0)
+
+        
+            RelationshipSatisfaction = st.selectbox("동료 관계 만족도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
+
+        with right2:
+            StockOptionLevel = st.selectbox("StockOptionLevel", ("0", "1", "2", "3"), index=0)
+
+            WorkLifeBalance = st.selectbox("워라밸", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
+
+        
+        left, middle, right = st.columns(3)
+        with left:
+            BusinessTravel = st.radio( "출장 빈도수",["거의 안 함", "자주 함", "가본 적 없음"],index=None)
+
+        with middle:
+            Department = st.radio("부서", ['Sales','Human Resources','Research & Development'],index=None)
+        
+        with right : 
+                OverTime = st.checkbox("초과근무")
+
+        options = ['Sales Executive','Manufacturing Director','Healthcare Representative','Manager', 
+                   'Research Director', 'Laboratory Technician','Sales Representative','Research Scientist', 'Human Resources']
+        
+        # options = ['영업 임원','생산 이사','의료 담당자','매니저','연구 이사','실험실 기술자','영업 담당자','연구 과학자','인사']
+        JobRole = st.segmented_control("업무", options, selection_mode="single")
         
 
         submit = st.form_submit_button("조회하기")
 
     if submit:
         #  예측 수행
-        # 1. dataframe을 만들기
-        # input_df = pd.DataFrame({
-        #     "Age": [age]
-        #     "OverTime": [int(overtime)],
-        #     "JobLevel": [job_level],
-        #     "Income": [Income]
-        # })
+        input_df = pd.DataFrame({
+        "Age":                     [age],
+        "Education":               [Education],
+        "EnvironmentSatisfaction": [EnvironmentSatisfaction],
+        "JobInvolvement":          [JobInvolvement],
+        "JobLevel":                [JobLevel],
+        "JobSatisfaction":         [JobSatisfaction],
+        "MaritalStatus":           [MaritalStatus],
+        "NumCompaniesWorked":      [NumCompaniesWorked],
+        "RelationshipSatisfaction":[RelationshipSatisfaction],
+        "StockOptionLevel":        [StockOptionLevel],
+        "WorkLifeBalance":         [WorkLifeBalance],
+        "BusinessTravel":          [BusinessTravel],
+        "Department":              [Department],
+        "OverTime":                [int(OverTime)],  # bool → 0/1
+        "JobRole":                 [JobRole]
+    })
+    
         
 
         # 2. 저장된 모델을 불러오기
+        with open('rfc.pkl','rb') as f:
+            model = pickle.load(f)
 
-
+        # proba = model.predict_proba(input_df)[:,1]
 
         # 3. 모델에 돌려서 1일 확률인 proba 구하기
         # proba = model.predict(input_df)[~~]
@@ -56,19 +91,25 @@ if menu == "이탈 예측 조회":
 
         # 결과 등급화
         if proba > 0.7:
-            level = "❗ 매우 높은 이탈 위험"
-            st.metric("이탈 가능성", f"{proba:.2%}") 
-            st.error(level)
+            level = "❗ 위험"
+            st.metric("이탈 가능성", f"{proba:.2%}")
+            # st.markdown(
+            #     "<div style='background-color: #ffa4a4; padding: 10px; border-radius: 5px;'>❗ 매우 높은 이탈 위험</div>",unsafe_allow_html=True)
+            st.error(f"{level} 단계입니다.")
 
         elif proba > 0.4:
-            level = "⚠️ 주의 필요"
+            level = "⚠️ 주의"
             st.metric("이탈 가능성", f"{proba:.2%}")
-            st.warning(level)
+            # st.markdown(
+            #     "<div style='background-color: #FAED7D; padding: 10px; border-radius: 5px;'>⚠️ 주의 필요</div>",unsafe_allow_html=True)
+            st.warning(f"{level} 단계입니다.")
 
         else:
-            level = "✅ 안정적"
+            level = "✅ 안정"
             st.metric("이탈 가능성", f"{proba:.2%}")
-            st.success(level)
+            # st.markdown(
+                # "<div style='background-color: #B7F0B1; padding: 10px; border-radius: 5px;'>✅ 안정적</div>",unsafe_allow_html=True)
+            st.success(f"{level} 단계입니다.")
 
         # 반원형 게이지 차트
         def gauge_option_fraction(val):
@@ -129,7 +170,7 @@ if menu == "이탈 예측 조회":
                 "show": True,
                 "offsetCenter": [0, "-20%"],
                 "fontSize": 16,
-                "formatter" : "{b}"
+                # "formatter" : "{b}"
             
             },
             "data": [{"value": pct, "name": "이탈 가능성"}]
@@ -139,56 +180,101 @@ if menu == "이탈 예측 조회":
         # 옵션 생성 & 렌더링
         st_echarts(gauge_option_fraction(proba))
 
+    # def column_name(column_name):
+    #     for i in range(len(df[0])):
+    #         if 
+        translation_dict = {
+    "JobLevel":               "직급 수준을",
+    "StockOptionLevel":       "스톡옵션 수준을",
+    "OverTime":               "잔업 여부를",
+    "MaritalStatus":          "결혼 상태를",
+    "Department":             "부서를",
+    "JobInvolvement":         "업무 몰입도를",
+    "EnvironmentSatisfaction":"환경 만족도를",
+    "JobRole":                "직무 역할을",
+    "JobSatisfaction":        "업무 만족도를",
+    "BusinessTravel":         "출장 빈도를",
+    "NumCompaniesWorked":     "근무 회사 수를",
+    "Age":                    "나이를",
+    "WorkLifeBalance":        "워크–라이프 밸런스를",
+    "RelationshipSatisfaction":"동료 관계 만족도를",
+    "Education":              "학력 수준을",
+    "TotalWorkingYears":      "총 근무 연수를",
+    "TrainingTimesLastYear":  "지난해 교육 횟수를",
+    "DistanceFromHome":       "집과 거리를",
+    "EducationField":         "전공 분야를",
+    "MonthlyRate":            "월급여를",
+    "HourlyRate":             "시급을",
+    "YearsSinceLastPromotion":"마지막 승진 후 경과 연수를",
+    "PerformanceRating":      "성과 평가 등급을",
+    "PercentSalaryHike":      "급여 인상률을",
+    "DailyRate":              "일일 요율을",
+    "Gender":                 "성별을"
+}
+        # imp_df : 
+        def summarize_features(feat_list: list[str]):
+            """
+            feat_list: 피처명(영어)만 들어있는 리스트
+            반환: feature | korean_name | mean 컬럼을 가진 DataFrame
+            """
+            records = []
+            for feat in feat_list:
+                # 1) 번역
+                kor = translation_dict.get(feat, "번역 없음")
+        
+                 # 2) 평균 계산
+                 # df는 feature의 평균을 구할 수 있는 dataframe (혹시 이게 있을까,,?ㅎㅎ)
+                if feat in df.columns:
+                    mean_val = df[feat].mean()
+                else:
+                    mean_val = None  # 혹은 np.nan
+        
+                records.append({"feature":feat, "korean_name":kor, "mean": mean_val})
+            return pd.DataFrame(records)
+
+
         # 상위 중요 변수 출력
-        st.markdown(
-    "<h3 style='margin-top:-100px;'>상위 주요 요인</h3>",
+    #     st.markdown(
+    # "<h3 style='margin-top:-100px;'>퇴사 이유 주요 요인</h3>",
+    # unsafe_allow_html=True)
+        # summarize_df = summarize_features(feat_list) # feat_list : feature, feature_dictionary, mean가 있는 dataframe 
+        
+        if level == "✅ 안정":
+            st.markdown(
+    "<h3 style='margin-top:-100px;'>✅ 조정할 수 있다면 조정해주세요</h3>",
     unsafe_allow_html=True)
-        st.write("~~")
+            st.markdown(
+    "<h6 style='margin-top:-50px;'>퇴사 이유 주요 요인</h6>",
+    unsafe_allow_html=True)
+            # st.write(f"{feature}이/가 {mean}만큼 부족합니다. {컬럼명:dictonary.key}")
+            
 
+        elif level == "⚠️ 주의":
+            st.markdown(
+    "<h3 style='margin-top:-100px;'>⚠️ 지금은 아니지만 조정이 필요합니다</h3>",
+    unsafe_allow_html=True)
+            st.markdown(
+    "<h6 style='margin-top:-50px;'>퇴사 이유 주요 요인</h6>",
+    unsafe_allow_html=True)
+            
 
-# 페이지 2: 컬럼별 상관관계 분석
-elif menu == "상관관계 분석":
-    st.title("컬럼별 상관관계 분석")
+        elif level == "❗ 위험":
+            st.markdown(
+    "<h3 style='margin-top:-100px;'>❗ 빠른 시일 내로 조정해주세요</h3>",
+    unsafe_allow_html=True)
+            st.markdown(
+    "<h6 style='margin-top:-50px;'>퇴사 이유 주요 요인</h6>",
+    unsafe_allow_html=True)
+    
+        features = [
+    'BusinessTravel', 'Department', 'Education',
+    'EnvironmentSatisfaction', 'JobInvolvement', 'JobLevel', 'JobRole',
+    'JobSatisfaction', 'MaritalStatus', 'NumCompaniesWorked', 'OverTime',
+    'RelationshipSatisfaction', 'StockOptionLevel', 'WorkLifeBalance','Age'
+]
+        means = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
+        for feat, mean_val in zip(features[:5], means[:5]):
+            kor = translation_dict.get(feat, "번역 없음")
 
-
-
-# 페이지 3: 대량 조회
-elif menu == "대량 조회":
-    st.title("대량 이탈 예측")
-
-    batch_file = st.file_uploader("대량 데이터 파일 업로드", type=["csv"])
-    if batch_file is not None:
-        # 1. csv 읽기
-        df = pd.read_csv(batch_file)
-        st.write("입력 데이터", df.head())
-
-        # 2. 전처리
-        # feature = df['전처리 필요한 피처명']
-        # X_Scaled = sclaer.transform(feature)
-
-        # 3. 예측
-        # pred_proba(확률)
-        # pred(이탈 여부)
-
-        # 4. 결과 병합
-        # df["Prob_Yes"] = pred_proba
-        # df["Pred"] = pred
-
-        # 결과 등급 결정 함수 
-        # def categorize(prob):
-        #     if prob >= 0.7: return "High"
-        #     if prob >= 0.3:  return "Medium"
-        #     return "Low"
-        # df['Grade'] = [categorize(p) for p in pred_proba]
-
-        # 5. 화면에 일부 출력
-        # st.subheader("예측 결과 (상위 5개)")
-        # st.dataframe(df["Prob_Yes"].head(5))
-        # st.dataframe(df["Pred"].head(5))
-
-        # 6. 다운로드 링크
-        csv = df.to_csv(index=False).encode("utf-8")
-        st.download_button("결과 다운로드", data=csv, file_name="prediction_result.csv", mime="text/csv")
-
-
+            st.write(f"{kor} 확인해주세요")
