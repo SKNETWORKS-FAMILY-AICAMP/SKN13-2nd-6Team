@@ -116,3 +116,16 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
 | WorkLifeBalance           | 0.024771   |
 | YearsWithCurrManager      | 0.022859   |
 | NumCompaniesWorked        | 0.019836   |
+
+## 3) 데이터 전처리
+###### (1) 원-핫 인코딩(One-Hot Encoding) : ❌
+###### (2) 라벨 인코딩(Label Encoding)
+
+| Feature                    | 설명 |매핑방식|
+|---------------------------|------------------|-----------------|
+| Attrition                  | 퇴사 여부 (Yes->1, No->0)  | 직접처리|
+| OverTime          | 초과 근무 여부 (Yes->1, No->0)   | ManualMapper| 
+| BusinessTravel                  | 출장 빈도 (Travel_Rarely → 2, Travel_Frequently → 3, Non-Travel → 4)  | ManualMapper|
+| MaritalStatus        | 결혼 상태 (	Single → 2, Married → 3, Divorced → 4) | ManualMapper|
+| Department             | 부서 (Sales → 2, Human Resources → 3, Research & Development → 4)  | ManualMapper|
+| JobRole   | 직무 (다양한 직무를 2~4 사이 값으로 라벨 매핑)   | ManualMapper |
