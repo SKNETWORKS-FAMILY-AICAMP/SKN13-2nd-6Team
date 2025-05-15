@@ -1,60 +1,67 @@
 # 페이지 1: 이탈 예측 조회
-if menu == "이탈 예측 조회":
-    st.title("이탈 예측 조회")
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+from streamlit_echarts import st_echarts
+import pickle
+import sklearn    
 
-    with st.form("predict_form"):
-        st.subheader("정보 입력")
+st.title("🔍 이탈 예측 조회")
+
+with st.form("predict_form"):
+    st.subheader("직원의 예상 정보를 입력하세요.")
 
         # 예시 컬럼: 범위 슬라이더 및 체크박스
         # feature importance 상위 15개
-        left, middle, right, right2 = st.columns(4)
-        with left:
-            age = st.number_input("나이", value=30)
+    left, middle, right, right2 = st.columns(4)
+    with left:
+        age = st.number_input("나이", value=30)
 
-            Education =st.selectbox("최종학력", ("고등학교 졸업", "전문대 졸업", "학사", "석사", "박사"), index=2)
+        Education =st.selectbox("최종학력", ("고등학교 졸업", "전문대 졸업", "학사", "석사", "박사"), index=2)
 
-            EnvironmentSatisfaction = st.selectbox("업무 환경 만족도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
+        EnvironmentSatisfaction = st.selectbox("업무 환경 만족도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
 
-        with middle:
-            JobInvolvement = st.selectbox("업무 몰입도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
-
-        
-            JobLevel = st.selectbox("직급", ("고위 임원", "임원", "중간 관리자", "자문위원", "사원"), index=4)
-        
-            JobSatisfaction = st.selectbox("업무 만족도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
-
-        with right:
-            MaritalStatus = st.selectbox("결혼 상태", ("미혼", "기혼", "이혼"), index=0)
-
-            NumCompaniesWorked = st.number_input("근무 회사 수", value=0)
+    with middle:
+        JobInvolvement = st.selectbox("업무 몰입도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
 
         
-            RelationshipSatisfaction = st.selectbox("동료 관계 만족도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
+        JobLevel = st.selectbox("직급", ("고위 임원", "임원", "중간 관리자", "자문위원", "사원"), index=4)
+        
+        JobSatisfaction = st.selectbox("업무 만족도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
 
-        with right2:
-            StockOptionLevel = st.selectbox("StockOptionLevel", ("0", "1", "2", "3"), index=0)
+    with right:
+        MaritalStatus = st.selectbox("결혼 상태", ("미혼", "기혼", "이혼"), index=0)
 
-            WorkLifeBalance = st.selectbox("워라밸", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
+        NumCompaniesWorked = st.number_input("근무 회사 수", value=0)
 
         
-        left, middle, right = st.columns(3)
-        with left:
-            BusinessTravel = st.radio( "출장 빈도수",["거의 안 함", "자주 함", "가본 적 없음"],index=None)
+        RelationshipSatisfaction = st.selectbox("동료 관계 만족도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
 
-        with middle:
-            Department = st.radio("부서", ['Sales','Human Resources','Research & Development'],index=None)
+    with right2:
+        StockOptionLevel = st.selectbox("StockOptionLevel", ("0", "1", "2", "3"), index=0)
+
+        WorkLifeBalance = st.selectbox("워라밸", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
+
         
-        with right : 
-                OverTime = st.checkbox("초과근무")
+    left, middle, right = st.columns(3)
+    with left:
+        BusinessTravel = st.radio( "출장 빈도수",["거의 안 함", "자주 함", "가본 적 없음"],index=None)
 
-        options = ['Sales Executive','Manufacturing Director','Healthcare Representative','Manager', 
+    with middle:
+        Department = st.radio("부서", ['Sales','Human Resources','Research & Development'],index=None)
+        
+    with right : 
+            OverTime = st.checkbox("초과근무")
+
+    options = ['Sales Executive','Manufacturing Director','Healthcare Representative','Manager', 
                    'Research Director', 'Laboratory Technician','Sales Representative','Research Scientist', 'Human Resources']
         
         # options = ['영업 임원','생산 이사','의료 담당자','매니저','연구 이사','실험실 기술자','영업 담당자','연구 과학자','인사']
-        JobRole = st.segmented_control("업무", options, selection_mode="single")
+    JobRole = st.segmented_control("업무", options, selection_mode="single")
         
 
-        submit = st.form_submit_button("조회하기")
+    submit = st.form_submit_button("조회하기")
 
     if submit:
         #  예측 수행
