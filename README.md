@@ -129,3 +129,7 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
 | MaritalStatus        | 결혼 상태 (	Single → 2, Married → 3, Divorced → 4) | ManualMapper|
 | Department             | 부서 (Sales → 2, Human Resources → 3, Research & Development → 4)  | ManualMapper|
 | JobRole   | 직무 (다양한 직무를 2~4 사이 값으로 라벨 매핑)   | ManualMapper |
+
+--------------------------------------------------------------
+### < 이후 과정 >
+### 모델 -> 클래스 불균형때문에 정확도 낮음 (파이 그래프로 클래스 비율 시각화) -> SMOTE 사용이후 모델 -> 모델 중 가장 높은 성능 보이는 것 선정 -> streamlit 구현 화면  
