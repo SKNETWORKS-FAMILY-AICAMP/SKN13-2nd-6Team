@@ -188,6 +188,9 @@ import os
 
 st.title("📦 대량 이탈 예측 (전처리 완료된 CSV 사용)")
 
+df = pd.read_csv("../data/datasets.csv")
+st.write("데이터 미리보기", df.head(1470))
+
 # 1. 모델 및 feature 목록 불러오기
 @st.cache_resource
 def load_model():
@@ -207,8 +210,8 @@ if not os.path.exists(csv_path):
     st.error(f"❌ 파일이 존재하지 않습니다: {csv_path}")
 else:
     # 전처리 전 원본 데이터 로드
-    df_raw = pd.read_csv("../data/datasets.csv")
-    st.write("✅ 입력 데이터 (원본)", df_raw.head())
+    df_raw = pd.read_csv(csv_path)
+    # st.write("✅ 입력 데이터 (원본)", df_raw.head())
 
     try:
         # 전처리 (예측용 feature 데이터 생성)

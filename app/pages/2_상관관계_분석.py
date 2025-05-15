@@ -18,9 +18,6 @@ st.title("📈 컬럼별 상관관계 분석")
 df = pd.read_csv("../data/processed_datasets.csv")
 st.write("데이터 미리보기", df.head())
 
-df = pd.read_csv("../data/processed_datasets.csv")
-st.write("데이터 미리보기", df.head())
-
 # 수치형 컬럼만 필터링
 numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
 
