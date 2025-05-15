@@ -80,3 +80,39 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
   └── run.sh                   # Streamlit 실행용 스크립트 (선택사항)
 ```
 --------------------------------------------------------------
+# 📊 탐색적 데이터 분석 (EDA)
+## 1) 결측치 처리 및 불필요한 컬럼 제거
+### - 결측치 처리
+(1) **Attrition** : 예측 대상(Target)으로, 결측치는 분석 불가능 -> 결측행 제거 <br> 
+(2) **TotalWorkingYears / YearsAtCompany** : 0으로 나누기 방지용 NaN 처리
+
+### - 불필요한 컬럼 제거
+| 컬럼명           | 설명                                      | 제거 사유 |
+|------------------|-------------------------------------------|-----------|
+| `EmployeeNumber` | 사번, 각 직원의 고유 식별자               | 모델이 단순 식별자에 과적합할 수 있어 제거 |
+| `EmployeeCount`  | 모든 값이 동일한 상수 (예: 모두 1)         | 정보 제공 없음 (분산 = 0) |
+| `Over18`         | 모든 값이 동일 ("Y")                      | 예측에 영향 없음 |
+| `StandardHours`  | 모든 값이 동일 (예: 80시간)                | 실제 근무 시간과 무관, 예측 변수로 부적절 |
+
+## 2) 주요 변수 선택 및 차원 축소
+###### 모델의 성능을 높이기 위해 전체 변수 중 Target(Attrition)과의 중요성 분석을 수행하였습니다.<br> 
+###### 분석 결과, target 값과 유의미한 중요성을 가지는 상위 15개 변수만 선별하였으며, 나머지 변수들은 예측 성능에 기여도가 낮다고 판단되어 제거하였습니다.
+###### 📌 Feature Importance 분석 결과
+
+| Feature                    | Importance |
+|---------------------------|------------|
+| JobLevel                  | 0.222696   |
+| StockOptionLevel          | 0.141220   |
+| OverTime                  | 0.078135   |
+| YearsInCurrentRole        | 0.041642   |
+| MaritalStatus             | 0.040173   |
+| EnvironmentSatisfaction   | 0.040092   |
+| JobRole                   | 0.036193   |
+| Department                | 0.035971   |
+| JobInvolvement            | 0.032841   |
+| Age                       | 0.027762   |
+| BusinessTravel            | 0.027067   |
+| JobSatisfaction           | 0.026314   |
+| WorkLifeBalance           | 0.024771   |
+| YearsWithCurrManager      | 0.022859   |
+| NumCompaniesWorked        | 0.019836   |
