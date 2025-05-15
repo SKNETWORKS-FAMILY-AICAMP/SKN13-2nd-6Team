@@ -7,13 +7,18 @@ import altair as alt
 import plotly.express as px
 import io
 from PIL import Image
+from streamlit_extras.switch_page_button import switch_page
 
 st.title("📈 컬럼별 상관관계 분석")
 
 # 데이터 업로드 또는 불러오기
 # uploaded_file = st.file_uploader("CSV 파일 업로드", type=["csv"])
 # if uploaded_file:
-df = pd.read_csv("../../data/processed_datasets.csv")
+
+df = pd.read_csv("../data/processed_datasets.csv")
+st.write("데이터 미리보기", df.head())
+
+df = pd.read_csv("../data/processed_datasets.csv")
 st.write("데이터 미리보기", df.head())
 
 # 수치형 컬럼만 필터링
@@ -33,7 +38,6 @@ else:
     # import plotly.express as px
     # fig = px.imshow(corr_matrix, text_auto=True, color_continuous_scale="RdBu_r", zmin=-1, zmax=1)
     # st.plotly_chart(fig, use_container_width=True)
-
 
     st.subheader(f"🔗 전체 상관계수 히트맵 ({method})")
 
@@ -65,7 +69,7 @@ else:
 
     # 절댓값 기준 top10 추출 후 부호 유지
     target_corr_series = corr_matrix[target_col].drop(target_col)
-    top10_indices = target_corr_series.abs().sort_values(ascending=False).head(8).index
+    top10_indices = target_corr_series.abs().sort_values(ascending=False).head(10).index
     target_corr = target_corr_series.loc[top10_indices]
 
     # # 상관계수 상위 10개 추출
