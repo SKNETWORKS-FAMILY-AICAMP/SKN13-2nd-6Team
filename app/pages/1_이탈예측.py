@@ -1,16 +1,28 @@
-# 페이지 1: 이탈 예측 조회
+# streamlit_app.py
+
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 from streamlit_echarts import st_echarts
 import pickle
-import sklearn    
+import sklearn
+from sklearn import preprocessing
+import shap
+import pandas as pd
+
+
+# 2. 저장된 모델을 불러오기
+with open('xgb.pkl','rb') as f:
+    model = pickle.load(f)
+
+
+# 페이지 1: 이탈 예측 조회
 
 st.title("🔍 이탈 예측 조회")
 
 with st.form("predict_form"):
-    st.subheader("직원의 예상 정보를 입력하세요.")
+    st.subheader("직원의 정보를 입력하세요")
 
         # 예시 컬럼: 범위 슬라이더 및 체크박스
         # feature importance 상위 15개
@@ -66,54 +78,147 @@ with st.form("predict_form"):
     if submit:
         #  예측 수행
         input_df = pd.DataFrame({
-        "Age":                     [age],
-        "Education":               [Education],
-        "EnvironmentSatisfaction": [EnvironmentSatisfaction],
-        "JobInvolvement":          [JobInvolvement],
-        "JobLevel":                [JobLevel],
-        "JobSatisfaction":         [JobSatisfaction],
-        "MaritalStatus":           [MaritalStatus],
-        "NumCompaniesWorked":      [NumCompaniesWorked],
-        "RelationshipSatisfaction":[RelationshipSatisfaction],
-        "StockOptionLevel":        [StockOptionLevel],
-        "WorkLifeBalance":         [WorkLifeBalance],
-        "BusinessTravel":          [BusinessTravel],
-        "Department":              [Department],
-        "OverTime":                [int(OverTime)],  # bool → 0/1
-        "JobRole":                 [JobRole]
-    })
-    
+            "Age":                      [age],
+            "BusinessTravel":           [BusinessTravel],
+            "Department":               [Department],
+            "Education":                [Education],
+            "EnvironmentSatisfaction":  [EnvironmentSatisfaction],
+            "JobInvolvement":           [JobInvolvement],
+            "JobLevel":                 [JobLevel],
+            "JobRole":                  [JobRole],
+            "JobSatisfaction":          [JobSatisfaction],
+            "MaritalStatus":            [MaritalStatus],
+            "NumCompaniesWorked":       [NumCompaniesWorked],
+            "OverTime":                 [int(OverTime)],
+            "RelationshipSatisfaction": [RelationshipSatisfaction],
+            "StockOptionLevel":         [StockOptionLevel],
+            "WorkLifeBalance":          [WorkLifeBalance]
+        })
+
+
+        # =======================================================================
+        # 한글 입력값을 숫자로 매핑
+        input_df['Education'] = input_df['Education'].map({
+            '고등학교 졸업': 1,
+            '전문대 졸업': 2,
+            '학사': 3,
+            '석사': 4,
+            '박사': 5
+        })
+
+        input_df['EnvironmentSatisfaction'] = input_df['EnvironmentSatisfaction'].map({
+            '나쁨': 1,
+            '보통': 2,
+            '좋음': 3,
+            '매우 좋음': 4
+        })
+
+        input_df['JobInvolvement'] = input_df['JobInvolvement'].map({
+            '나쁨': 1,
+            '보통': 2,
+            '좋음': 3,
+            '매우 좋음': 4
+        })
+
+        input_df['JobLevel'] = input_df['JobLevel'].map({
+            '고위 임원': 5,
+            '임원': 4,
+            '중간 관리자': 3,
+            '자문위원': 2,
+            '사원': 1
+        })
+
+        input_df['JobSatisfaction'] = input_df['JobSatisfaction'].map({
+            '나쁨': 1,
+            '보통': 2,
+            '좋음': 3,
+            '매우 좋음': 4
+        })
+
+        input_df['MaritalStatus'] = input_df['MaritalStatus'].map({
+            '미혼': 2,
+            '기혼': 3,
+            '이혼': 4
+        })
+
+        input_df['RelationshipSatisfaction'] = input_df['RelationshipSatisfaction'].map({
+            '나쁨': 1,
+            '보통': 2,
+            '좋음': 3,
+            '매우 좋음': 4
+        })
+
+        input_df['StockOptionLevel'] = input_df['StockOptionLevel'].astype(int)
+
+        input_df['WorkLifeBalance'] = input_df['WorkLifeBalance'].map({
+            '나쁨': 1,
+            '보통': 2,
+            '좋음': 3,
+            '매우 좋음': 4
+        })
+
+        input_df['BusinessTravel'] = input_df['BusinessTravel'].map({
+            '거의 안 함': 2,
+            '자주 함': 3,
+            '가본 적 없음': 4
+        })
+
+        input_df['Department'] = input_df['Department'].map({
+            'Sales':2,
+            'Human Resources':3,
+            'Research & Development':4
+        })
+
+        # input_df['OverTime'] = input_df['OverTime'].astype(int)
+
+        input_df['JobRole'] = input_df['JobRole'].map({
+            'Sales Executive':2,
+            'Manufacturing Director':3,
+            'Healthcare Representative':4,
+            'Manager':2,
+            'Research Director':3,
+            'Laboratory Technician':4,
+            'Sales Representative':2,
+            'Research Scientist':3,
+            'Human Resources':4
+        })
+        # =====================================================================
+
+        
+        ###
+        ## 여기에 scaler
+        with open('scaler.pkl','rb') as f:
+            scaler = pickle.load(f)
+
+        norm = scaler.transform(input_df)
+        norm_df = pd.DataFrame(norm, columns=input_df.columns)
+        proba =  float(model.predict_proba(norm_df)[:,1])
         
 
-        # 2. 저장된 모델을 불러오기
-        with open('rfc.pkl','rb') as f:
-            model = pickle.load(f)
-
-        # proba = model.predict_proba(input_df)[:,1]
-
         # 3. 모델에 돌려서 1일 확률인 proba 구하기
-        # proba = model.predict(input_df)[~~]
-        proba = np.random.rand()  # 예시용
-
+        
 
         # 결과 등급화
         if proba > 0.7:
             level = "❗ 위험"
-            st.metric("이탈 가능성", f"{proba:.2%}")
+            pct = round(proba * 100, 2)
+            st.metric("이탈 가능성", f"{pct}%")
             # st.markdown(
             #     "<div style='background-color: #ffa4a4; padding: 10px; border-radius: 5px;'>❗ 매우 높은 이탈 위험</div>",unsafe_allow_html=True)
             st.error(f"{level} 단계입니다.")
 
         elif proba > 0.4:
             level = "⚠️ 주의"
-            st.metric("이탈 가능성", f"{proba:.2%}")
+            pct = round(proba * 100, 2)
+            st.metric("이탈 가능성", f"{pct}%")
             # st.markdown(
             #     "<div style='background-color: #FAED7D; padding: 10px; border-radius: 5px;'>⚠️ 주의 필요</div>",unsafe_allow_html=True)
             st.warning(f"{level} 단계입니다.")
 
         else:
             level = "✅ 안정"
-            st.metric("이탈 가능성", f"{proba:.2%}")
+            pct = round(proba * 100, 2)
+            st.metric("이탈 가능성", f"{pct}%")
             # st.markdown(
                 # "<div style='background-color: #B7F0B1; padding: 10px; border-radius: 5px;'>✅ 안정적</div>",unsafe_allow_html=True)
             st.success(f"{level} 단계입니다.")
@@ -171,13 +276,13 @@ with st.form("predict_form"):
                 "valueAnimation": True,
                 "fontSize": 24,
                 "offsetCenter": [0, "0%"],
-                "formatter": "{value} %"
+                "formatter": "{value}%"
             },
             "title": {
                 "show": True,
                 "offsetCenter": [0, "-20%"],
                 "fontSize": 16,
-                # "formatter" : "{b}"
+                "formatter" : "{b}"
             
             },
             "data": [{"value": pct, "name": "이탈 가능성"}]
@@ -185,103 +290,93 @@ with st.form("predict_form"):
     }
         
         # 옵션 생성 & 렌더링
+        # st_echarts(gauge_option_fraction(proba))
         st_echarts(gauge_option_fraction(proba))
 
     # def column_name(column_name):
     #     for i in range(len(df[0])):
     #         if 
         translation_dict = {
-    "JobLevel":               "직급 수준을",
-    "StockOptionLevel":       "스톡옵션 수준을",
-    "OverTime":               "잔업 여부를",
-    "MaritalStatus":          "결혼 상태를",
-    "Department":             "부서를",
-    "JobInvolvement":         "업무 몰입도를",
-    "EnvironmentSatisfaction":"환경 만족도를",
-    "JobRole":                "직무 역할을",
-    "JobSatisfaction":        "업무 만족도를",
-    "BusinessTravel":         "출장 빈도를",
-    "NumCompaniesWorked":     "근무 회사 수를",
-    "Age":                    "나이를",
-    "WorkLifeBalance":        "워크–라이프 밸런스를",
-    "RelationshipSatisfaction":"동료 관계 만족도를",
-    "Education":              "학력 수준을",
-    "TotalWorkingYears":      "총 근무 연수를",
-    "TrainingTimesLastYear":  "지난해 교육 횟수를",
-    "DistanceFromHome":       "집과 거리를",
-    "EducationField":         "전공 분야를",
-    "MonthlyRate":            "월급여를",
-    "HourlyRate":             "시급을",
-    "YearsSinceLastPromotion":"마지막 승진 후 경과 연수를",
-    "PerformanceRating":      "성과 평가 등급을",
-    "PercentSalaryHike":      "급여 인상률을",
-    "DailyRate":              "일일 요율을",
-    "Gender":                 "성별을"
+    "JobLevel":               "👔 직급 수준",
+    "StockOptionLevel":       "📈 스톡옵션 수준",
+    "OverTime":               "⏰ 잔업 여부",
+    "MaritalStatus":          "💍 결혼 상태",
+    "Department":             "🏢 부서",
+    "JobInvolvement":         "💼 업무 몰입도",
+    "EnvironmentSatisfaction":"🌟 환경 만족도",
+    "JobRole":                "📝 직무 역할",
+    "JobSatisfaction":        "😊 업무 만족도",
+    "BusinessTravel":         "✈️ 출장 빈도",
+    "NumCompaniesWorked":     "🏢 근무 회사 수",
+    "Age":                    "🎂 나이",
+    "WorkLifeBalance":        "⚖️ 워크–라이프 밸런스",
+    "RelationshipSatisfaction":"🤝 동료 관계 만족도",
+    "Education":              "🎓 학력 수준",
+    "TotalWorkingYears":      "⏳ 총 근무 연수",
+    "TrainingTimesLastYear":  "📚 지난해 교육 횟수",
+    "DistanceFromHome":       "🏠 집과 거리",
+    "EducationField":         "🏫 전공 분야",
+    "MonthlyRate":            "💰 월급여",
+    "HourlyRate":             "💵 시급",
+    "YearsSinceLastPromotion":"📅 마지막 승진 후 경과 연수",
+    "PerformanceRating":      "⭐ 성과 평가 등급",
+    "PercentSalaryHike":      "📈 급여 인상률",
+    "DailyRate":              "📆 DailyRate",
+    "Gender":                 "🚻 성별"
 }
-        # imp_df : 
-        def summarize_features(feat_list: list[str]):
-            """
-            feat_list: 피처명(영어)만 들어있는 리스트
-            반환: feature | korean_name | mean 컬럼을 가진 DataFrame
-            """
-            records = []
-            for feat in feat_list:
-                # 1) 번역
-                kor = translation_dict.get(feat, "번역 없음")
-        
-                 # 2) 평균 계산
-                 # df는 feature의 평균을 구할 수 있는 dataframe (혹시 이게 있을까,,?ㅎㅎ)
-                if feat in df.columns:
-                    mean_val = df[feat].mean()
-                else:
-                    mean_val = None  # 혹은 np.nan
-        
-                records.append({"feature":feat, "korean_name":kor, "mean": mean_val})
-            return pd.DataFrame(records)
+
+
 
 
         # 상위 중요 변수 출력
-    #     st.markdown(
-    # "<h3 style='margin-top:-100px;'>퇴사 이유 주요 요인</h3>",
-    # unsafe_allow_html=True)
-        # summarize_df = summarize_features(feat_list) # feat_list : feature, feature_dictionary, mean가 있는 dataframe 
-        
-        if level == "✅ 안정":
-            st.markdown(
-    "<h3 style='margin-top:-100px;'>✅ 조정할 수 있다면 조정해주세요</h3>",
-    unsafe_allow_html=True)
-            st.markdown(
-    "<h6 style='margin-top:-50px;'>퇴사 이유 주요 요인</h6>",
-    unsafe_allow_html=True)
-            # st.write(f"{feature}이/가 {mean}만큼 부족합니다. {컬럼명:dictonary.key}")
-            
+        st.markdown(
+     """
+    <h3 style="
+        margin: 0; 
+        padding: 0;             
+        margin-top: -80px; 
+    ">
+      💡 퇴사 이유 주요 요인
+    </h3>
+    """,
+    unsafe_allow_html=True)            
 
-        elif level == "⚠️ 주의":
-            st.markdown(
-    "<h3 style='margin-top:-100px;'>⚠️ 지금은 아니지만 조정이 필요합니다</h3>",
-    unsafe_allow_html=True)
-            st.markdown(
-    "<h6 style='margin-top:-50px;'>퇴사 이유 주요 요인</h6>",
-    unsafe_allow_html=True)
-            
+        def predict_with_explanation(input_df, model, feature_columns):
 
-        elif level == "❗ 위험":
-            st.markdown(
-    "<h3 style='margin-top:-100px;'>❗ 빠른 시일 내로 조정해주세요</h3>",
-    unsafe_allow_html=True)
-            st.markdown(
-    "<h6 style='margin-top:-50px;'>퇴사 이유 주요 요인</h6>",
-    unsafe_allow_html=True)
-    
-        features = [
-    'BusinessTravel', 'Department', 'Education',
-    'EnvironmentSatisfaction', 'JobInvolvement', 'JobLevel', 'JobRole',
-    'JobSatisfaction', 'MaritalStatus', 'NumCompaniesWorked', 'OverTime',
-    'RelationshipSatisfaction', 'StockOptionLevel', 'WorkLifeBalance','Age'
-]
-        means = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
-        for feat, mean_val in zip(features[:5], means[:5]):
+    # 예측 결과
+            prediction = model.predict(input_df)[0]
+            probability = model.predict_proba(input_df)[0][1]  # 퇴사 확률 (Yes 클래스)
+
+    # SHAP 계산기 생성 (Tree 기반 모델용)
+            explainer = shap.TreeExplainer(model)
+            shap_values = explainer.shap_values(input_df)
+
+    # SHAP 값 → pandas Series (기여도)
+            shap_df = pd.Series(shap_values[0], index=feature_columns).sort_values(key=abs, ascending=False)
+
+    # 상위 5개 피처 + 기여도 값 포함
+            top5 = shap_df.head(5).to_dict()
+
+            return {
+        'prediction': int(prediction),
+        'probability': float(probability),
+        'top5_features': top5
+    }
+
+        feature_columns = norm_df.columns
+        result = predict_with_explanation(norm_df, model, feature_columns)
+
+        features = result['top5_features']
+
+
+        for idx, feat in enumerate(features, start=1):
             kor = translation_dict.get(feat, "번역 없음")
-
-            st.write(f"{kor} 확인해주세요")
+            if idx == 1:
+                st.markdown(
+        f'<p style="margin: -20px 0 10px 0px; padding: 0;">{kor}</p>',
+        unsafe_allow_html=True)
+            else:
+                st.markdown(
+        f'<p style="margin: 0px 0 10px 0px; padding: 0;">{kor}</p>',
+        unsafe_allow_html=True)
