@@ -5,21 +5,23 @@
 
 ## **📑 목차**
 * [프로젝트 개요](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
-    * 프로젝트 주제
-    * 프로젝트 목표
-    * 데이터셋 소개
+   * [프로젝트 주제](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%A3%BC%EC%A0%9C)
+   * [프로젝트 목표](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%AA%A9%ED%91%9C)
+   * [데이터셋 소개](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B)
 * [팀원 및 담당 업무](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
+   * [팀원 소개](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%8C%80%EC%9B%90-%EC%86%8C%EA%B0%9C)
+   * [담당 업무](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%EB%8B%B4%EB%8B%B9%EC%97%85%EB%AC%B4)
 * [사용기술 스택](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
 * [프로젝트 디렉토리 구조](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B5%AC%EC%A1%B0)
 * [탐색적 데이터 분석(EDA)](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%83%90%EC%83%89%EC%A0%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%84%EC%84%9D-eda)
-    * 결측치 처리 및 불필요한 컬럼 제거
-    * 주요 변수 선택 및 차원 축소
-    * 데이터 전처리
+    * [결측치 처리 및 불필요한 컬럼 제거](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#1-%EA%B2%B0%EC%B8%A1%EC%B9%98-%EC%B2%98%EB%A6%AC-%EB%B0%8F-%EB%B6%88%ED%95%84%EC%9A%94%ED%95%9C-%EC%BB%AC%EB%9F%BC-%EC%A0%9C%EA%B1%B0)
+    * [주요 변수 선택 및 차원 축소](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#2-%EC%A3%BC%EC%9A%94-%EB%B3%80%EC%88%98-%EC%84%A0%ED%83%9D-%EB%B0%8F-%EC%B0%A8%EC%9B%90-%EC%B6%95%EC%86%8C)
+    * [데이터 전처리](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#3-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%84%EC%B2%98%EB%A6%AC)
 * [모델링 및 성능 개선](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EB%AA%A8%EB%8D%B8%EB%A7%81-%EB%B0%8F-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-%EA%B3%BC%EC%A0%95)
-    * 초기 모델 성능 비교
-    * SMOTE 적용 및 불균형 해결
-    * Feature Selection 적용
-    * 최종 모델 선택 및 평가 지표
+    * [초기 모델 성능 비교](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#%EF%B8%8F-1-%EC%B4%88%EA%B8%B0-%EB%AA%A8%EB%8D%B8%EB%A7%81---%EB%8B%A8%EC%88%9C-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%EC%A0%84-column-drop-%EC%A0%84)
+    * [SMOTE 적용 및 불균형 해결](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#%EF%B8%8F-2-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B6%88%EA%B7%A0%ED%98%95-%EB%AC%B8%EC%A0%9C-%EC%9D%B8%EC%8B%9D---smote%EC%A0%81%EC%9A%A9-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%EC%A0%84)
+    * [Feature Selection 적용](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#%EF%B8%8F-2-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B6%88%EA%B7%A0%ED%98%95-%EB%AC%B8%EC%A0%9C-%EC%9D%B8%EC%8B%9D---smote%EC%A0%81%EC%9A%A9-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%EC%A0%84)
+    * [최종 모델 선택 및 평가 지표](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%EC%B5%9C%EC%A2%85-%EC%84%A0%ED%83%9D-%EB%AA%A8%EB%8D%B8)
 * [Streamlit 대시보드 구현](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-streamlit-%EA%B5%AC%ED%98%84)
 * [인사이트 및 결론](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%EB%B0%8F-%EA%B2%B0%EB%A1%A0)
 
@@ -152,7 +154,7 @@
 
 
 ## **🧪 모델링 및 성능 개선 과정**
-### **⚙️ 1. 초기 모델링 - 단순 학습 (SMOTE 적용 전, column drop 전)**
+### **⚙️ 초기 모델링 - 단순 학습 (SMOTE 적용 전, column drop 전)**
 처음에 전체 데이터를 그대로 활용하여, 전처리만 수행한 뒤 다양한 분류 모델 학습
 #### < 모델 성능 비교 및 분석 > 
 | model                    | accuracy |
@@ -177,7 +179,7 @@ df['Attrition'].value_counts(normalize=True).plot.pie(autopct='%1.1f%%')
 * Target(Attrition)의 분포를 확인해보니 클래스 불균형이 매우 심각함
 * 모델이 'No'로만 예측해도 약 84% 정확도를 달성할 수 있었기에, 이는 불균형으로 인한 과대평가된 성능이라 판단
 
-### **⚙️ 2. 클래스 불균형 문제 인식 - SMOTE적용 (SMOTE 적용 후, column drop 전)**
+### **⚙️ 클래스 불균형 문제 인식 - SMOTE적용 (SMOTE 적용 후, column drop 전)**
 #### 🔧 SMOTE 적용을 통한 데이터 균형 조정
 ```python
 from imblearn.over_sampling import SMOTE
@@ -220,7 +222,7 @@ top_features = feature_importance_df.head(15)
 ![image](https://github.com/user-attachments/assets/b9f0f5ed-4bec-41e8-b9ef-efe5c4f640f0)
 
 
-### **⚙️ 3. 연산 효율성과 과적합 방지 - columns drop 후 학습 (SMOTE 적용 후, column drop 후)**
+### **⚙️ 연산 효율성과 과적합 방지 - columns drop 후 학습 (SMOTE 적용 후, column drop 후)**
 #### < 모델 성능 비교 및 분석 > 
 | model                    | accuracy |
 |---------------------------|------------|
