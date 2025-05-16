@@ -288,6 +288,10 @@ streamlit run app.py
 4. 페이지 이동 안내
 5. 사이드바 메뉴(직원 퇴사 예측/ 상관관계 분석 / 대량 예측) 사용 안내 메시지 출력
 
+![Image](https://github.com/user-attachments/assets/49f19cc0-9ee6-4992-98a9-56694c86d9ea)
+
+
+
 ## 직원 퇴사 예측 페이지
 
 직원의 정보를 직접 입력해서 퇴사 예측 확률을 알려주는 페이지입니다.
@@ -310,6 +314,9 @@ streamlit run app.py
 - 위험 등급: 확률에 따라 High/Medium/Low 등급(Grade) 부여
 - Top 20 추출: 이탈 확률 상위 20명 테이블 출력
 - 결과 다운로드: 전체 예측 결과 CSV 파일로 저장 가능
+
+![Image](https://github.com/user-attachments/assets/910f466c-962b-400f-ba9d-e4002b464acf)
+![Image](https://github.com/user-attachments/assets/9680e62d-27ce-47e4-8e5d-987da2462049)
 
 ### user
 
