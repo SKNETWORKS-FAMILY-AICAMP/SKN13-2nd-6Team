@@ -180,9 +180,9 @@ X_resampled, y_resampled = smote.fit_resample(X, y)
 
 ##### 📈SMOTE적용 이후 전반적으로 모든 모델의 성능이 눈에 띄게 향상되었으며, 특히 **Random Forest 모델**은 약94%의 정확도를 기록하여 가장 우수한 성능을 보임
 ## 🔍  성능 개선
-##### SMOTE 적용만으로도 상당한 성능 향상을 이끌어냈지만, 추가적으로 모델의 연산 효율성과 일반화 성능을 향상시키기 위해 Feature Selection을 진행
+##### ● SMOTE 적용만으로도 상당한 성능 향상을 이끌어냈지만, 추가적으로 모델의 연산 효율성과 일반화 성능을 향상시키기 위해 Feature Selection을 진행
 
-##### 앞서 수행한 EDA과정에서, 전체 피처들 중에서 Attrition 예측에 유의미한 영향을 주는 상위 15개 변수만 선별하였고, 정보가 거의 없거나 모델에 불필요한 노이즈가 될 수 있는 컬럼 확인.
+##### ● 앞서 수행한 EDA과정에서, 전체 피처들 중에서 Attrition 예측에 유의미한 영향을 주는 상위 15개 변수만 선별하였고, 정보가 거의 없거나 모델에 불필요한 노이즈가 될 수 있는 컬럼 확인.
 ```
 # 중요도 추출
 importances = model.feature_importances_
@@ -200,7 +200,19 @@ top_features = feature_importance_df.head(15)
 ![image](https://github.com/user-attachments/assets/b9f0f5ed-4bec-41e8-b9ef-efe5c4f640f0)
 
 
-## ⚙️ 2. 클래스 불균형 문제 인식 - SMOTE적용 (SMOTE 적용 후, column drop 전)
+## ⚙️ 3. 연산 효율성과 과적합 방지 - columns drop 후 학습 (SMOTE 적용 후, column drop 후)
+##### < 모델 성능 비교 및 분석 > 
+| model                    | accuracy |
+|---------------------------|------------|
+|            Logistic Regression       | 	0.7854  |
+| Random Forest         | 0.9352   |
+| Gradient Boosting                  | 0.9170   |
+| LightGBM        | 0.9109   |
+| XGBoost             | 0.9089   |
+
+##### 📈 columns drop 이후에도 Random Forest는 여전히 가장 우수한 성능을 유지했으며, 전체적으로 SMOTE + Feature Selection 조합이 모델 성능과 효율성 모두에 긍정적인 효과를 준 것으로 확인
+
+## 📌 최종 선택 모델
 
 --------------------------------------------------------------
 
