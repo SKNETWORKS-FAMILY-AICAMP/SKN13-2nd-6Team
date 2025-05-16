@@ -41,13 +41,12 @@
 
 ## **👤 팀원 및 담당 업무**
 팀명 : 조이름추천해조
-#### 🥸 팀원 소개
+#### **🥸 팀원 소개**
 | 구자현 | 민경재 | 박현아 | 우지훈 |
 |---|---|---|---|
 | 🐶 | 🐱 | 🐰 | 🐼 |
 |<a href="https://github.com/Koojh99"><img src="https://img.shields.io/badge/GitHub-Koojh99-FF585B?logo=github" alt="구자현 GitHub"/></a>|<a href="https://github.com/rudwo524"><img src="https://img.shields.io/badge/GitHub-rudwo524-FF585B?logo=github" alt="민경재 GitHub"/></a>|<a href="https://github.com/hyun-ah-0"><img src="https://img.shields.io/badge/GitHub-hyun--ah--0-5086C2?logo=github" alt="박현아 GitHub"/></a>|<a href="https://github.com/WooZhoon"><img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/></a>|
-
-#### 🧑‍💻 담당업무
+#### **🧑‍💻 담당업무**
 | 이름 | 역할 |
 |---|---|
 | 구자현 |모델 학습, 최종모델 선정, ReadMe작성 |
@@ -78,7 +77,7 @@
   │   └── testset.csv
   │
   ├── models/                  # 학습된 모델 저장소
-  │   ├── gb_clf.pkl
+  │   ├── gb_clf.pkl           
   │   ├── lgbm_clf.pkl
   │   ├── lr_clf.pkl
   │   ├── rf_clf.pkl
@@ -101,27 +100,25 @@
   ├── README.md                # 프로젝트 설명
   └── .gitignore               # 모델, 캐시, 데이터 제외
 ```
---------------------------------------------------------------
-## **📊 탐색적 데이터 분석 (EDA)**
-#### 1) 결측치 처리 및 불필요한 컬럼 제거
-##### - 결측치 처리
-(1) **Attrition** : 예측 대상(Target)으로, 결측치는 분석 불가능 -> 결측행 제거 <br> 
-(2) **TotalWorkingYears / YearsAtCompany** : 0으로 나누기 방지용 NaN 처리
 
-### - 불필요한 컬럼 제거
+
+## **📊 탐색적 데이터 분석 (EDA)**
+### 1) 결측치 처리 및 불필요한 컬럼 제거
+#### - 결측치 처리
+> (1) **Attrition** : 예측 대상(Target)으로, 결측치는 분석 불가능 -> 결측행 제거 <br> 
+> (2) **TotalWorkingYears / YearsAtCompany** : 0으로 나누기 방지용 NaN 처리
+
+#### - 불필요한 컬럼 제거
 | 컬럼명           | 설명                                      | 제거 사유 |
 |------------------|-------------------------------------------|-----------|
-| `EmployeeNumber` | 사번, 각 직원의 고유 식별자               | 모델이 단순 식별자에 과적합할 수 있어 제거 |
-| `EmployeeCount`  | 모든 값이 동일한 상수 (예: 모두 1)         | 정보 제공 없음 (분산 = 0) |
-| `Over18`         | 모든 값이 동일 ("Y")                      | 예측에 영향 없음 |
+| `EmployeeNumber` | 사번, 각 직원의 고유 식별자                 | 모델이 단순 식별자에 과적합할 수 있어 제거 |
+| `EmployeeCount`  | 모든 값이 동일한 상수 (예: 모두 1)          | 정보 제공 없음 (분산 = 0) |
+| `Over18`         | 모든 값이 동일 ("Y")                       | 예측에 영향 없음 |
 | `StandardHours`  | 모든 값이 동일 (예: 80시간)                | 실제 근무 시간과 무관, 예측 변수로 부적절 |
 
-## 2) 주요 변수 선택 및 차원 축소
-모델의 성능을 높이기 위해 전체 변수 중 Target(Attrition)과의 중요성 분석을 수행하였습니다.
-
-분석 결과, target 값과 유의미한 중요성을 가지는 상위 15개 변수만 선별하였으며, 나머지 변수들은 예측 성능에 기여도가 낮다고 판단되어 제거하였습니다.
-#### 📌 Feature Importance 분석 결과
-
+### 2) 주요 변수 선택 및 차원 축소
+> 모델의 성능을 높이기 위해 전체 변수 중 Target(Attrition)과의 중요성 분석을 수행하였습니다. 분석 결과, target 값과 유의미한 중요성을 가지는 상위 15개 변수만 선별하였으며, 나머지 변수들은 예측 성능에 기여도가 낮다고 판단되어 제거하였습니다.
+#### **📌 Feature Importance 분석 결과**
 | Feature                    | Importance |
 |---------------------------|------------|
 | JobLevel                  | 0.222696   |
@@ -140,9 +137,9 @@
 | YearsWithCurrManager      | 0.022859   |
 | NumCompaniesWorked        | 0.019836   |
 
-## 3) 데이터 전처리
-#### (1) 원-핫 인코딩(One-Hot Encoding) : ❌
-#### (2) 라벨 인코딩(Label Encoding)
+### 3) 데이터 전처리
+* 원-핫 인코딩(One-Hot Encoding) : ❌
+* 라벨 인코딩(Label Encoding)
 
 | Feature                    | 설명 |매핑방식|
 |---------------------------|------------------|-----------------|
@@ -153,10 +150,10 @@
 | Department             | 부서 (Sales → 2, Human Resources → 3, Research & Development → 4)  | ManualMapper|
 | JobRole   | 직무 (다양한 직무를 2~4 사이 값으로 라벨 매핑)   | ManualMapper |
 
---------------------------------------------------------------
-# 🧪 모델링 및 성능 개선 과정
-## ⚙️ 1. 초기 모델링 - 단순 학습 (SMOTE 적용 전, column drop 전)
-##### 처음에 전체 데이터를 그대로 활용하여, 전처리만 수행한 뒤 다양한 분류 모델 학습
+
+## **🧪 모델링 및 성능 개선 과정**
+### **⚙️ 1. 초기 모델링 - 단순 학습 (SMOTE 적용 전, column drop 전)**
+처음에 전체 데이터를 그대로 활용하여, 전처리만 수행한 뒤 다양한 분류 모델 학습
 #### < 모델 성능 비교 및 분석 > 
 | model                    | accuracy |
 |---------------------------|------------|
@@ -167,8 +164,8 @@
 | XGBoost             | 0.8571   |
 
 📈 모델 성능은 전반적으로 나쁘지 않지만, 실제 분류 문제에서 단순 정확도만으로 판단하는 것으로 위험할 수 있다고 판단과 성능 개선을 위해 후속 분석 수행.
-## 🔍  성능 개선 
-#### 클래스 비율 확인
+#### **🔍  성능 개선**
+클래스 비율 확인
 ```python
 # 이직 여부 분포 확인
 df['Attrition'].value_counts(normalize=True).plot.pie(autopct='%1.1f%%')
@@ -178,10 +175,10 @@ df['Attrition'].value_counts(normalize=True).plot.pie(autopct='%1.1f%%')
 ✅ 이직한 사람: 약 16% <br>
 ✅ 재직 중인 사람: 약 84%
 * Target(Attrition)의 분포를 확인해보니 클래스 불균형이 매우 심각함
-* 모델이 'No'로만 예측해도 약 84% 정확도를 달성할 수 있었기에, 이는 불균형으로 인한 과대평가된 성능이라 판단 <br>
+* 모델이 'No'로만 예측해도 약 84% 정확도를 달성할 수 있었기에, 이는 불균형으로 인한 과대평가된 성능이라 판단
 
-## ⚙️ 2. 클래스 불균형 문제 인식 - SMOTE적용 (SMOTE 적용 후, column drop 전)
-## 🔧 SMOTE 적용을 통한 데이터 균형 조정
+### **⚙️ 2. 클래스 불균형 문제 인식 - SMOTE적용 (SMOTE 적용 후, column drop 전)**
+#### 🔧 SMOTE 적용을 통한 데이터 균형 조정
 ```python
 from imblearn.over_sampling import SMOTE
 
@@ -203,9 +200,8 @@ X_resampled, y_resampled = smote.fit_resample(X, y)
 | XGBoost             | 0.9332   |
 
 📈 SMOTE적용 이후 전반적으로 모든 모델의 성능이 눈에 띄게 향상되었으며, 특히 **Random Forest 모델**은 약94%의 정확도를 기록하여 가장 우수한 성능을 보임
-## 🔍  성능 개선
+#### 🔍  성능 개선
 * SMOTE 적용만으로도 상당한 성능 향상을 이끌어냈지만, 추가적으로 모델의 연산 효율성과 일반화 성능을 향상시키기 위해 Feature Selection을 진행
-
 * 앞서 수행한 EDA과정에서, 전체 피처들 중에서 Attrition 예측에 유의미한 영향을 주는 상위 15개 변수만 선별하였고, 정보가 거의 없거나 모델에 불필요한 노이즈가 될 수 있는 컬럼 확인.
 ```python
 # 중요도 추출
@@ -224,7 +220,7 @@ top_features = feature_importance_df.head(15)
 ![image](https://github.com/user-attachments/assets/b9f0f5ed-4bec-41e8-b9ef-efe5c4f640f0)
 
 
-## ⚙️ 3. 연산 효율성과 과적합 방지 - columns drop 후 학습 (SMOTE 적용 후, column drop 후)
+### **⚙️ 3. 연산 효율성과 과적합 방지 - columns drop 후 학습 (SMOTE 적용 후, column drop 후)**
 #### < 모델 성능 비교 및 분석 > 
 | model                    | accuracy |
 |---------------------------|------------|
@@ -236,8 +232,8 @@ top_features = feature_importance_df.head(15)
 
 📈 columns drop 이후에도 Random Forest는 여전히 가장 우수한 성능을 유지했으며, 전체적으로 SMOTE + Feature Selection 조합이 모델 성능과 효율성 모두에 긍정적인 효과를 준 것으로 확인
 
-## 📌 최종 선택 모델
-#### RandomForestClassifier
+### **📌 최종 선택 모델**
+> RandomForestClassifier
 ```python
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, recall_score, f1_score
@@ -259,7 +255,7 @@ print(f"Accuracy : {accuracy:.4f}")
 print(f"Recall   : {recall:.4f}")
 print(f"F1-score : {f1:.4f}")
 ```
-✅ Random Forest 성능 지표
+#### **✅ Random Forest 성능 지표**
 |scoring|value|
 |---|---|
 |Accuracy | 0.9473|
@@ -293,73 +289,58 @@ print(f"✅ ROC-AUC score: {roc_auc:.4f}")
 ✅ ROC-AUC score: 0.9855
 
 
---------------------------------------------------------------
-# 🚀 Streamlit 구현
-
+## **🚀 Streamlit 구현**
 실행
 ```bash
 streamlit run app.py
 ```
-## main page
-
+### main page
 앱 실행 시 초기 진입 화면에 표시되는 메인 페이지 구성 요소입니다:
-
-1. 페이지 설정: 페이지 제목 : 👩‍💼 직원 이탈 예측 시스템
-2. 기본 통계 카드 (3컬럼 레이아웃) : 총 인원 수, 이직률, 평균 나이
-3. 이직/잔류 파이 차트 : 파이차트를 이용해 Attrition 분포 시각화
-4. 페이지 이동 안내
-5. 사이드바 메뉴(직원 퇴사 예측/ 상관관계 분석 / 대량 예측) 사용 안내 메시지 출력
+> 1. 페이지 설정: 페이지 제목 : 👩‍💼 직원 이탈 예측 시스템
+> 2. 기본 통계 카드 (3컬럼 레이아웃) : 총 인원 수, 이직률, 평균 나이
+> 3. 이직/잔류 파이 차트 : 파이차트를 이용해 Attrition 분포 시각화
+> 4. 페이지 이동 안내
+> 5. 사이드바 메뉴(직원 퇴사 예측/ 상관관계 분석 / 대량 예측) 사용 안내 메시지 출력
 
 ![Image](https://github.com/user-attachments/assets/49f19cc0-9ee6-4992-98a9-56694c86d9ea)
 
-
-
-## 직원 퇴사 예측 페이지
-
+### page 1: 직원 퇴사 예측 페이지
 사전 학습된 RandomForest 모델과 전처리 파이프라인을 활용하여 직원 정보의 입력값을 받아 이탈 예측을 수행합니다. 특성 중요도 기준으로 상위 15개의 특성을 입력할 수 있습니다. 퇴사 가능성의 시각화된 정보와 만일 퇴사 가능성이 높다면 해당 직원의 퇴사 주요 요인을 제공합니다.
-
-### 주요 기능
-
-- 입력값 받기:특성 중요도 기준 상위 15개 특성에 대한 직원의 정보를 직접 입력
-- 데이터 전처리: tools.py의 drop_unnecessary_col과 mapping 함수로 불필요 컬럼 제거 및 범주형 인코딩 수행
-- 정규화: 학습 시 사용된 dummy_scaler.pkl 스케일러 적용
-- 모델 예측: rfc_clf.pklRandomForestt 분류기를 로드하여 이탈 가능성인 퇴사 가능성 생성
+#### **주요 기능**
+- 입력값 받기: 특성 중요도 기준 상위 15개 특성에 대한 직원의 정보를 직접 입력
+- 데이터 전처리: utils.py의 mapping 함수로 범주형 인코딩 수행
+- 정규화: 학습 시 사용된 scaler.pkl 스케일러 적용
+- 모델 예측: rf_clf.pkl(RandomForest 분류기)를 로드하여 이탈 가능성인 퇴사 가능성 생성
 - 위험 등급: 확률에 따라 안정/주의/위험 등급(Grade) 부여
-- 시각화:퇴사 가능성과 위험 등급을 직관적으로 표시
-- 주요 요인 추출:퇴사 가능성의 등급이 주의 혹은 위험이라면 중요도가 높은 특성 출력
-
+- 시각화: 퇴사 가능성과 위험 등급을 직관적으로 표시
+- 주요 요인 추출: 퇴사 가능성의 등급이 주의 혹은 위험이라면 중요도가 높은 특성 출력
+  
 ![Image](https://github.com/user-attachments/assets/41556142-c754-4b42-a0e3-cbea77d9f583)
 ![Image](https://github.com/user-attachments/assets/d7e15e52-f5f3-42bd-961e-2359c95e329f)
 ![Image](https://github.com/user-attachments/assets/7a57e871-510c-4c51-921c-6606be34fc54)
 ![Image](https://github.com/user-attachments/assets/f3953db2-91f6-4409-ab96-f7c2682d40aa)
 ![Image](https://github.com/user-attachments/assets/6138c550-a65a-4b54-97e0-15779fbf74be)
 
-## 일괄 예측 조회 페이지
-
+### page 2: 일괄 예측 조회 페이지
 사전 학습된 RandomForest 모델과 전처리 파이프라인을 활용하여 대규모 직원 이탈 예측을 수행합니다. 사용자는 전처리된 CSV 파일을 업로드하면, 자동으로 불필요 컬럼 제거, 매핑, 정규화를 거쳐 이탈 확률을 계산하고, 상위 20명의 고위험 직원 정보를 제공합니다.
-
-### 주요 기능
-
-- 데이터 전처리: tools.py의 drop_unnecessary_col과 mapping 함수로 불필요 컬럼 제거 및 범주형 인코딩 수행
-- 정규화: 학습 시 사용된 dummy_scaler.pkl 스케일러 적용
-- 모델 예측: rfc_clf.pkl RandomForest 분류기를 로드하여 이탈 확률(Attrition_Prob) 및 예측(Pred) 생성
+#### **주요 기능**
+- 데이터 전처리: utils.py의 drop_unnecessary_col과 mapping 함수로 불필요 컬럼 제거 및 범주형 인코딩 수행
+- 정규화: 학습 시 사용된 scaler.pkl 스케일러 적용
+- 모델 예측: rf_clf.pkl(RandomForest 분류기)를 로드하여 이탈 확률(Attrition_Prob) 및 예측(Pred) 생성
 - 위험 등급: 확률에 따라 High/Medium/Low 등급(Grade) 부여
 - Top 20 추출: 이탈 확률 상위 20명 테이블 출력
 - 결과 다운로드: 전체 예측 결과를 📥 결과 다운로드 버튼으로 CSV 파일로 저장 가능
-
+  
 ![Image](https://github.com/user-attachments/assets/ded1c720-2452-448f-afd2-34317f27d434)
 ![Image](https://github.com/user-attachments/assets/154c6b46-183c-441e-b87d-909b25ff3384)
 ![Image](https://github.com/user-attachments/assets/395853e7-6078-4499-9359-308433edb18e)
 
-## 주요 변수간 상관관계 페이지
-
+### page 3: 주요 변수간 상관관계 페이지
 사전 학습된 RandomForest 모델과 전처리 파이프라인을 바탕으로 주요 변수간의 상관 관계를 시각화하여 제공합니다. 사용자는 선택한 feature의 상관관계가 높은 5개를 막대그래프로 확인할 수 있습니다. 또한, 전체 특성 간의 히트맵을 확인할 수 있습니다. 
-
-### 주요 기능
-
-- 상관계수 계산:15개의 주요 피처 간 Pearson 상관계수를 계산
-- 시각화:상관관계 분석 페이지 구현과 사용 방법사용자가 선한 기준 피처와 나머지 14개의 feature 중 Top 5 상관관계를 막대그래프로 시각화
-- 히트맵:전체 피처 간 히트맵을 Plotly로 표시
+#### 주요 기능
+- 상관계수 계산: 15개의 주요 피처 간 Pearson 상관계수를 계산
+- 시각화: 상관관계 분석 페이지 구현과 사용 방법사용자가 선한 기준 피처와 나머지 14개의 feature 중 Top 5 상관관계를 막대그래프로 시각화
+- 히트맵: 전체 피처 간 히트맵을 Plotly로 표시
 
 ![Image](https://github.com/user-attachments/assets/910f466c-962b-400f-ba9d-e4002b464acf)
 ![Image](https://github.com/user-attachments/assets/9680e62d-27ce-47e4-8e5d-987da2462049)
