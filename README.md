@@ -131,5 +131,142 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
 | JobRole   | 직무 (다양한 직무를 2~4 사이 값으로 라벨 매핑)   | ManualMapper |
 
 --------------------------------------------------------------
+# 🧪 모델링 및 성능 개선 과정
+## ⚙️ 1. 초기 모델링 - 단순 학습 (SMOTE 적용 전, column drop 전)
+##### 처음에 전체 데이터를 그대로 활용하여, 전처리만 수행한 뒤 다양한 분류 모델 학습
+##### < 모델 성능 비교 및 분석 > 
+| model                    | accuracy |
+|---------------------------|------------|
+|            Logistic Regression       | 	0.8741   |
+| Random Forest         | 0.8605   |
+| Gradient Boosting                  | 0.8605   |
+| LightGBM        | 0.8469   |
+| XGBoost             | 0.8571   |
+
+##### 📈 모델 성능은 전반적으로 나쁘지 않지만, 실제 분류 문제에서 단순 정확도만으로 판단하는 것으로 위험할 수 있다고 판단과 성능 개선을 위해 후속 분석 수행.
+## 🔍  성능 개선 
+#### 클래스 비율 확인
+```
+# 이직 여부 분포 확인
+df['Attrition'].value_counts(normalize=True).plot.pie(autopct='%1.1f%%')
+```
+![image](https://github.com/user-attachments/assets/07672410-0e02-4007-be4d-3200ea0d485b)
+##### ✅ 이직한 사람: 약 16%
+##### ✅ 재직 중인 사람: 약 84%
+##### ● Target(Attrition)의 분포를 확인해보니 클래스 불균형이 매우 심각함
+##### ● 모델이 'No'로만 예측해도 약 84% 정확도를 달성할 수 있었기에, 이는 불균형으로 인한 과대평가된 성능이라 판단 <br>
+
+## ⚙️ 2. 클래스 불균형 문제 인식 - SMOTE적용 (SMOTE 적용 후, column drop 전)
+## 🔧 SMOTE 적용을 통한 데이터 균형 조정
+```
+from imblearn.over_sampling import SMOTE
+
+X = pd.DataFrame(norm_df.drop(columns='Attrition'))
+Y = pd.DataFrame(norm_df.Attrition).values.reshape(-1, 1)
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X, y)
+```
+##### ● SMOTE(Synthetic Minority Over-sampling Technique) 기법 도입 
+##### ● SMOTE기법을 도입하여 minority 클래스인 'Yes(이직)'에 해당하는 샘플을 오버샘플링 
+##### ● SMOTE 적용 후, 이직/재직 클래스 비율 1:1로 조정됨
+##### < 모델 성능 비교 및 분석 > 
+| model                    | accuracy |
+|---------------------------|------------|
+|            Logistic Regression       | 	0.8036   |
+| Random Forest         | 0.9393   |
+| Gradient Boosting                  | 0.9211   |
+| LightGBM        | 0.9312   |
+| XGBoost             | 0.9332   |
+
+##### 📈SMOTE적용 이후 전반적으로 모든 모델의 성능이 눈에 띄게 향상되었으며, 특히 **Random Forest 모델**은 약94%의 정확도를 기록하여 가장 우수한 성능을 보임
+## 🔍  성능 개선
+##### ● SMOTE 적용만으로도 상당한 성능 향상을 이끌어냈지만, 추가적으로 모델의 연산 효율성과 일반화 성능을 향상시키기 위해 Feature Selection을 진행
+
+##### ● 앞서 수행한 EDA과정에서, 전체 피처들 중에서 Attrition 예측에 유의미한 영향을 주는 상위 15개 변수만 선별하였고, 정보가 거의 없거나 모델에 불필요한 노이즈가 될 수 있는 컬럼 확인.
+```
+# 중요도 추출
+importances = model.feature_importances_
+feature_names = X.columns
+
+# 결과 정리 및 정렬
+feature_importance_df = pd.DataFrame({
+    'Feature': feature_names,
+    'Importance': importances
+}).sort_values(by='Importance', ascending=False)
+
+top_features = feature_importance_df.head(15)
+```
+###### 📌 Feature Importance 분석 결과
+![image](https://github.com/user-attachments/assets/b9f0f5ed-4bec-41e8-b9ef-efe5c4f640f0)
+
+
+## ⚙️ 3. 연산 효율성과 과적합 방지 - columns drop 후 학습 (SMOTE 적용 후, column drop 후)
+##### < 모델 성능 비교 및 분석 > 
+| model                    | accuracy |
+|---------------------------|------------|
+|            Logistic Regression       | 	0.7854  |
+| Random Forest         | 0.9473   |
+| Gradient Boosting                  | 0.9170   |
+| LightGBM        | 0.9109   |
+| XGBoost             | 0.9089   |
+
+##### 📈 columns drop 이후에도 Random Forest는 여전히 가장 우수한 성능을 유지했으며, 전체적으로 SMOTE + Feature Selection 조합이 모델 성능과 효율성 모두에 긍정적인 효과를 준 것으로 확인
+
+## 📌 최종 선택 모델
+### RandomForestClassifier
+```
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, recall_score, f1_score
+
+# 모델 학습
+rf_clf = RandomForestClassifier(random_state=42)
+rf_clf.fit(X_train, y_train)
+
+# 예측
+y_pred_rf = rf_clf.predict(X_test)
+
+# 평가 지표 출력
+accuracy = accuracy_score(y_test, y_pred_rf)
+recall = recall_score(y_test, y_pred_rf)
+f1 = f1_score(y_test, y_pred_rf)
+
+print(f"✅ Random Forest 성능 지표")
+print(f"Accuracy : {accuracy:.4f}")
+print(f"Recall   : {recall:.4f}")
+print(f"F1-score : {f1:.4f}")
+```
+##### ✅ Random Forest 성능 지표
+##### Accuracy : 0.9473
+##### Recall   : 0.9205
+##### F1-score : 0.9419
+
+```
+cm = confusion_matrix(y_test, y_pred_rf)
+plt.figure(figsize=(5, 4))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=["No", "Yes"], yticklabels=["No", "Yes"])
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title(f"Confusion Matrix (rf)")
+plt.tight_layout()
+plt.savefig('Confusion Matrix (rf).png')
+plt.show()
+```
+![image](https://github.com/user-attachments/assets/5464ebea-b32e-4e88-9229-d4f73c0586c9)
+
+```
+from sklearn.metrics import roc_auc_score
+
+# 양성 클래스(Attrition = 1)에 대한 확률 예측
+y_proba = rf_clf.predict_proba(X_test)[:, 1]
+
+# ROC-AUC 점수 계산
+roc_auc = roc_auc_score(y_test, y_proba)
+
+print(f"✅ ROC-AUC score: {roc_auc:.4f}")
+```
+##### ✅ ROC-AUC score: 0.9855
+--------------------------------------------------------------
+
+
 ### < 이후 과정 >
-### 모델 -> 클래스 불균형때문에 정확도 낮음 (파이 그래프로 클래스 비율 시각화) -> SMOTE 사용이후 모델 -> 모델 중 가장 높은 성능 보이는 것 선정 -> streamlit 구현 화면  -> 인사이트 및 결론 -> + 회고록
+### streamlit 구현 화면  -> 인사이트 및 결론 -> + 회고록

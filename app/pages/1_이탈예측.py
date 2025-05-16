@@ -310,25 +310,13 @@ with st.form("predict_form"):
             features = result['top5_features']
 
 
-            feat_items = list(features.items())[:5]
-            cols = st.columns(5)
-
-            for col, (feat, val) in zip(cols, feat_items):
-                    with col:
-                        kor = translation_dict.get(feat, "번역 없음")
-            #             st.markdown(
-            #     f"""
-            #     <div style="
-            #         margin-top: -50px;
-            #         background-color: #f9f9f9;
-            #         padding: 10px;
-            #         border-radius: 8px;
-            #         text-align: center;
-            #         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            #     ">
-            #         <strong style="font-size:14px;">{kor}</strong>
-            #     </div>
-            #     """,
-            #     unsafe_allow_html=True
-            # )
-                        st.form_submit_button(label=kor)
+        for idx, feat in enumerate(features, start=1):
+            kor = translation_dict.get(feat, "번역 없음")
+            if idx == 1:
+                st.markdown(
+        f'<p style="margin: -20px 0 10px 0px; padding: 0;">{kor}</p>',
+        unsafe_allow_html=True)
+            else:
+                st.markdown(
+        f'<p style="margin: 0px 0 10px 0px; padding: 0;">{kor}</p>',
+        unsafe_allow_html=True)
