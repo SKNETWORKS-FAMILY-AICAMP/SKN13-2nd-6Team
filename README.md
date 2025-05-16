@@ -11,7 +11,7 @@
 * [팀원 및 담당 업무](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%8C%80%EC%9B%90-%EB%B0%8F-%EB%8B%B4%EB%8B%B9-%EC%97%85%EB%AC%B4)
    * [팀원 소개](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%8C%80%EC%9B%90-%EC%86%8C%EA%B0%9C)
    * [담당 업무](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%EB%8B%B4%EB%8B%B9%EC%97%85%EB%AC%B4)
-* [사용기술 스택](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%8C%80%EC%9B%90-%EB%B0%8F-%EB%8B%B4%EB%8B%B9-%EC%97%85%EB%AC%B4)
+* [사용기술 스택](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%EA%B8%B0%EC%88%A0%EC%8A%A4%ED%83%9D)
 * [프로젝트 디렉토리 구조](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B5%AC%EC%A1%B0)
 * [탐색적 데이터 분석(EDA)](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%83%90%EC%83%89%EC%A0%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%84%EC%84%9D-eda)
     * [결측치 처리 및 불필요한 컬럼 제거](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#1-%EA%B2%B0%EC%B8%A1%EC%B9%98-%EC%B2%98%EB%A6%AC-%EB%B0%8F-%EB%B6%88%ED%95%84%EC%9A%94%ED%95%9C-%EC%BB%AC%EB%9F%BC-%EC%A0%9C%EA%B1%B0)
