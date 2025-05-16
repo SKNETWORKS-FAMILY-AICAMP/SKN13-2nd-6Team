@@ -7,7 +7,7 @@
 * [프로젝트 개요](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
    * [프로젝트 주제](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%A3%BC%EC%A0%9C)
    * [프로젝트 목표](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%AA%A9%ED%91%9C)
-   * [데이터셋 소개](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%EB%B0%8F-%EA%B2%B0%EB%A1%A0)
+   * [데이터셋 소개](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B-%EC%86%8C%EA%B0%9C)
 * [팀원 및 담당 업무](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%8C%80%EC%9B%90-%EB%B0%8F-%EB%8B%B4%EB%8B%B9-%EC%97%85%EB%AC%B4)
    * [팀원 소개](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%ED%8C%80%EC%9B%90-%EC%86%8C%EA%B0%9C)
    * [담당 업무](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%EB%8B%B4%EB%8B%B9%EC%97%85%EB%AC%B4)
