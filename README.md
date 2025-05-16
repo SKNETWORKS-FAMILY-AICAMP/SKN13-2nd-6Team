@@ -16,25 +16,25 @@
 # 📑 목차
 1. 사용기술 스택
 2. 프로젝트 개요 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
-  - 프로젝트 주제
-  - 프로젝트 목표
-  - 데이터셋 소개
+    - 프로젝트 주제
+    - 프로젝트 목표
+    - 데이터셋 소개
   
 3. 프로젝트 디렉토리 구조 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B5%AC%EC%A1%B0
 )
 
 4. 탐색적 데이터 분석(EDA) [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%83%90%EC%83%89%EC%A0%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%84%EC%84%9D-eda)
-  - 결측치 처리 및 불필요한 컬럼 제거
-  - 주요 변수 선택 및 차원 축소
-  - 데이터 전처리
+    - 결측치 처리 및 불필요한 컬럼 제거
+    - 주요 변수 선택 및 차원 축소
+    - 데이터 전처리
     
 5. 모델링 및 성능 개선 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EB%AA%A8%EB%8D%B8%EB%A7%81-%EB%B0%8F-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-%EA%B3%BC%EC%A0%95
 )
-  - 초기 모델 성능 비교 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-1-%EC%B4%88%EA%B8%B0-%EB%AA%A8%EB%8D%B8%EB%A7%81---%EB%8B%A8%EC%88%9C-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%EC%A0%84-column-drop-%EC%A0%84
+    - 초기 모델 성능 비교 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-1-%EC%B4%88%EA%B8%B0-%EB%AA%A8%EB%8D%B8%EB%A7%81---%EB%8B%A8%EC%88%9C-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%EC%A0%84-column-drop-%EC%A0%84
 )
-  - SMOTE 적용 및 불균형 해결 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-2-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B6%88%EA%B7%A0%ED%98%95-%EB%AC%B8%EC%A0%9C-%EC%9D%B8%EC%8B%9D---smote%EC%A0%81%EC%9A%A9-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%EC%A0%84)
-  - Feature Selection 적용 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-3-%EC%97%B0%EC%82%B0-%ED%9A%A8%EC%9C%A8%EC%84%B1%EA%B3%BC-%EA%B3%BC%EC%A0%81%ED%95%A9-%EB%B0%A9%EC%A7%80---columns-drop-%ED%9B%84-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%ED%9B%84)
-  - 최종 모델 선택 및 평가 지표 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EC%B5%9C%EC%A2%85-%EC%84%A0%ED%83%9D-%EB%AA%A8%EB%8D%B8)
+    - SMOTE 적용 및 불균형 해결 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-2-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B6%88%EA%B7%A0%ED%98%95-%EB%AC%B8%EC%A0%9C-%EC%9D%B8%EC%8B%9D---smote%EC%A0%81%EC%9A%A9-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%EC%A0%84)
+    - Feature Selection 적용 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-3-%EC%97%B0%EC%82%B0-%ED%9A%A8%EC%9C%A8%EC%84%B1%EA%B3%BC-%EA%B3%BC%EC%A0%81%ED%95%A9-%EB%B0%A9%EC%A7%80---columns-drop-%ED%9B%84-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%ED%9B%84)
+    - 최종 모델 선택 및 평가 지표 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EC%B5%9C%EC%A2%85-%EC%84%A0%ED%83%9D-%EB%AA%A8%EB%8D%B8)
     
 6. Streamlit 대시보드 구현 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-streamlit-%EA%B5%AC%ED%98%84)
 
@@ -384,7 +384,7 @@ streamlit run app.py
 * 최종적으로 개발한 예측 모델 streamlit을 통해 직관적인 시각화 및 사용자 친화적인 예측 도구로 구현되어, 직원마다 이탈율을 예측하여 저/중/고 위험도 분류하여 관리 가능하게 될 수 있습니다.
 ---------------------------------------------------------------
 ## 회고록
-* 구자현 : 이번 프로젝트를 통해, 비록 가상의 데이터였지만 실제 HR 관리 업무에 필요한 이직(Attrition) 예측 분석의 전 과정을 직접 경험해볼 수 있었습니다. 초기 데이터 전처리부터 모델링, 평가 및 시각화까지 전체 흐름을 수행하면서 실제 실무 적용 가능성을 고려한 분석 사고력을 키울 수 있었습니다. 특히, 다양한 모델을 실험하면서 단순히 정확도에만 의존해서는 안된다는 점, 그리고 클래스 불균형 문제에 대응하기 위한 SMOTE 등의 기법이 실제 예측 성능에 큰 영향을 미친다는 사실을 배울 수 있는 프로젝트가 된 것 같습니다.  
+* 구자현 : 이번 프로젝트를 통해, 초기 데이터 전처리부터 모델링, 평가 및 시각화까지 전체 흐름을 수행하면서 실제 실무 적용 가능성을 고려한 분석 사고력을 키울 수 있었습니다. 특히, 다양한 모델을 실험하면서 단순히 정확도에만 의존해서는 안된다는 점과 클래스 불균형 문제에 대응하기 위한 SMOTE 등의 기법이 실제 예측 성능에 큰 영향을 미친다는 사실을 배울 수 있는 프로젝트가 된 것 같습니다.
 * 민경재 : 이번 프로젝트를 통해 Attrition데이터를 활용하여 전처리, 모델링, 평가, 시각화 및 화면 구현까지 하는 전체 흐름을 익힐 수 있었습니다. 그리고 SMOTE 기법을 활용하여 보다 더  좋은 예측을 할 수 있었습니다. 불과 2일밖에 안 되는 시간이었지만 좋은 팀원들 덕분에 잘 마무리할 수 있었던 것 같습니다.
 * 박현아 : 모델 학습과 다양한 streamlit 구현을 해볼 수 있는 기회였습니다. 데이터 모델링부터 쉬운 과정 하나 없었지만 팀원들 덕분에 프로젝트를 무사히 잘 마칠 수 있었다고 생각합니다. 생각보다 시간이 촉박했지만, 팀원들 덕에 좋은 결과를 만들 수 있었다고 생각합니다. 다들너무 죄송하고 감사해요 정말...
 * 우지훈 : 데이터셋에 대해서 다양한 모델을 학습시켜보고 성능평가를 하였다. GridSearchCV를 사용해 최적의 하이퍼 파라미터 또한 찾아보려고 했지만, 오히려 성능이 낮아지는 상황이 발생했다. 또한, 데이터의 수가 부족하기도 하고 데이터의 분포 자체가 불균형이 심해 학습이 원활히 진행되지 않았다. 문제를 해결할 방법을 찾던 중 SMOTE라는 기술을 알게 되고, 그때부터 유의미한 성능 향상을 진행했다. 머신러닝의 데이터 전처리부터 성능 향상까지 많은 것을 배우게 되었다.
