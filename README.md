@@ -205,7 +205,7 @@ top_features = feature_importance_df.head(15)
 | model                    | accuracy |
 |---------------------------|------------|
 |            Logistic Regression       | 	0.7854  |
-| Random Forest         | 0.9352   |
+| Random Forest         | 0.9473   |
 | Gradient Boosting                  | 0.9170   |
 | LightGBM        | 0.9109   |
 | XGBoost             | 0.9089   |
@@ -213,9 +213,60 @@ top_features = feature_importance_df.head(15)
 ##### 📈 columns drop 이후에도 Random Forest는 여전히 가장 우수한 성능을 유지했으며, 전체적으로 SMOTE + Feature Selection 조합이 모델 성능과 효율성 모두에 긍정적인 효과를 준 것으로 확인
 
 ## 📌 최종 선택 모델
+### RandomForestClassifier
+```
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, recall_score, f1_score
 
+# 모델 학습
+rf_clf = RandomForestClassifier(random_state=42)
+rf_clf.fit(X_train, y_train)
+
+# 예측
+y_pred_rf = rf_clf.predict(X_test)
+
+# 평가 지표 출력
+accuracy = accuracy_score(y_test, y_pred_rf)
+recall = recall_score(y_test, y_pred_rf)
+f1 = f1_score(y_test, y_pred_rf)
+
+print(f"✅ Random Forest 성능 지표")
+print(f"Accuracy : {accuracy:.4f}")
+print(f"Recall   : {recall:.4f}")
+print(f"F1-score : {f1:.4f}")
+```
+##### ✅ Random Forest 성능 지표
+##### Accuracy : 0.9473
+##### Recall   : 0.9205
+##### F1-score : 0.9419
+
+```
+cm = confusion_matrix(y_test, y_pred_rf)
+plt.figure(figsize=(5, 4))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=["No", "Yes"], yticklabels=["No", "Yes"])
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title(f"Confusion Matrix (rf)")
+plt.tight_layout()
+plt.savefig('Confusion Matrix (rf).png')
+plt.show()
+```
+![image](https://github.com/user-attachments/assets/5464ebea-b32e-4e88-9229-d4f73c0586c9)
+
+```
+from sklearn.metrics import roc_auc_score
+
+# 양성 클래스(Attrition = 1)에 대한 확률 예측
+y_proba = rf_clf.predict_proba(X_test)[:, 1]
+
+# ROC-AUC 점수 계산
+roc_auc = roc_auc_score(y_test, y_proba)
+
+print(f"✅ ROC-AUC score: {roc_auc:.4f}")
+```
+##### ✅ ROC-AUC score: 0.9855
 --------------------------------------------------------------
 
 
 ### < 이후 과정 >
-### 모델 -> 클래스 불균형때문에 정확도 낮음 (파이 그래프로 클래스 비율 시각화) -> SMOTE 사용이후 모델 -> 모델 중 가장 높은 성능 보이는 것 선정 -> streamlit 구현 화면  -> 인사이트 및 결론 -> + 회고록
+### streamlit 구현 화면  -> 인사이트 및 결론 -> + 회고록
