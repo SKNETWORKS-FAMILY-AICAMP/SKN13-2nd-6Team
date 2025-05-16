@@ -1,14 +1,22 @@
+# 🚩**IBM 직원 이탈 예측**
 📅**개발 기간** : 2025.05.15 ~ 2025.05.16
 
-# 🚩**IBM 직원 이탈 예측**
---------------------------------------------------------------
+
+
 ## 👤 팀원 및 담당 업무
-| 이름     | 역할                        |gitbub|
-|----------|-----------------------------|-------------- |
-| 구자현   |모델 학습, 최종모델 선정, ReadMe작성|[🐶] |
-| 민경재   | 모델 학습 , Streamlit 구현, ReadMe작성  |[🐱]|
-| 박현아   | 모델 학습, Streamlit 구현        | [🐰]|
-| 우지훈 |  팀장, 데이터 전처리 및 모델 학습, 최종모델 선정     |[🐼](https://github.com/WooZhoon)|
+#### 팀원 소개
+| 구자현                               | 민경재                                | 박현아                        | 우지훈                                                        |
+|--------------------------------------|----------------------------------------|-------------------------------|---------------------------------------------------------------|
+|🐶|🐱|🐰|🐼|
+|<a href="https://github.com/Koojh99"><img src="https://img.shields.io/badge/GitHub-Koojh99-FF585B?logo=github" alt="구자현 GitHub"/></a>|<a href="https://github.com/rudwo524"><img src="https://img.shields.io/badge/GitHub-rudwo524-FF585B?logo=github" alt="민경재 GitHub"/></a>|<a href="https://github.com/hyun-ah-0"><img src="https://img.shields.io/badge/GitHub-hyun--ah--0-FF585B?logo=github" alt="박현아 GitHub"/></a>|<a href="https://github.com/WooZhoon"><img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/></a>|
+
+#### 담당업무
+| 이름     | 역할                        |
+|----------|-----------------------------|
+| 구자현   |모델 학습, 최종모델 선정, ReadMe작성|
+| 민경재   | 모델 학습 , Streamlit 구현, ReadMe작성  |
+| 박현아   | 모델 학습, Streamlit 구현        |
+| 우지훈 |  팀장, 데이터 전처리 및 모델 학습, 최종모델 선정     |
 --------------------------------------------------------------
 - SK네트웍스 Family AI 캠프 13기
 - 팀명 : 조 이름 추천해조
