@@ -1,24 +1,9 @@
-## Streamlit
-
-### 디렉토리 구조
-
-
-
-project/
-├─ app.py                 # Streamlit 앱 실행 스크립트
-├─ tools.py               # 전처리 유틸리티 함수
-├─ notebooks/
-│  └─ test/test_test/
-│     ├─ xgb_clf.pkl       # 학습된 XGBoost 모델
-│     └─ dummy_scaler.pkl  # 학습된 스케일러
-├─ data/                  # 사용자 업로드 CSV 저장(없을 시 업로드)
-├─ README.md              # 프로젝트 설명 문서
-└─ requirements.txt       # 의존성 목록
+# Streamlit
 
 실행
 streamlit run app.py
 
-### main page
+## main page
 
 앱 실행 시 초기 진입 화면에 표시되는 메인 페이지 구성 요소입니다:
 
@@ -33,9 +18,9 @@ streamlit run app.py
 
 사이드바 메뉴(직원 퇴사 예측/ 상관관계 분석 / 대량 예측) 사용 안내 메시지 출력
 
-### page 1
+## page 1
 
-#### 직원 퇴사 예측
+### 직원 퇴사 예측
 
 직원의 정보를 직접 입력해서 퇴사 예측 확률을 알려주는 페이지입니다.
 
@@ -45,13 +30,13 @@ streamlit run app.py
 - 또한, 눈금과 확률 숫자를 같이 보여주며 한 눈에 확인할 수 있도록 하였다.
 - 중요도가 높은 feature 다섯 개를 선정하여 퇴사 이유 주요 요인으로 보여준다.
 
-### page 2
+## page 2
 
-### page 3
+## page 3
 
 이 Streamlit 페이지는 사전 학습된 XGBoost 모델과 전처리 파이프라인을 활용하여 대규모 직원 이탈 예측을 수행합니다. 사용자는 전처리된 CSV 파일을 업로드하면, 자동으로 불필요 컬럼 제거, 매핑, 정규화를 거쳐 이탈 확률을 계산하고, 상위 20명의 고위험 직원 정보를 제공합니다.
 
-#### 주요 기능
+### 주요 기능
 
 - 데이터 전처리: tools.py의 drop_unnecessary_col과 mapping 함수로 불필요 컬럼 제거 및 범주형 인코딩 수행
 - 정규화: 학습 시 사용된 dummy_scaler.pkl 스케일러 적용
@@ -60,7 +45,7 @@ streamlit run app.py
 - Top 20 추출: 이탈 확률 상위 20명 테이블 출력
 - 결과 다운로드: 전체 예측 결과 CSV 파일로 저장 가능
 
-#### user
+### user
 
 - 브라우저에서 나타나는 UI에서 대량 데이터 파일 업로드 클릭 -> 전처리된 CSV 파일 선택
 - 자동 전처리 → 예측 → Top 20 이탈 확률 높은 대상 테이블 확인
