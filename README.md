@@ -30,11 +30,11 @@
     
 [5. 모델링 및 성능 개선](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EB%AA%A8%EB%8D%B8%EB%A7%81-%EB%B0%8F-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-%EA%B3%BC%EC%A0%95
 )
-  - [초기 모델 성능 비교](
-https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-2-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B6%88%EA%B7%A0%ED%98%95-%EB%AC%B8%EC%A0%9C-%EC%9D%B8%EC%8B%9D---smote%EC%A0%81%EC%9A%A9-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%EC%A0%84)
-  - [SMOTE 적용 및 불균형 해결](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-3-%EC%97%B0%EC%82%B0-%ED%9A%A8%EC%9C%A8%EC%84%B1%EA%B3%BC-%EA%B3%BC%EC%A0%81%ED%95%A9-%EB%B0%A9%EC%A7%80---columns-drop-%ED%9B%84-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%ED%9B%84)
-  - [Feature Selection 적용](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EC%B5%9C%EC%A2%85-%EC%84%A0%ED%83%9D-%EB%AA%A8%EB%8D%B8)
-  - [최종 모델 선택 및 평가 지표](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#-%EC%B5%9C%EC%A2%85-%EC%84%A0%ED%83%9D-%EB%AA%A8%EB%8D%B8)
+  - [초기 모델 성능 비교](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-1-%EC%B4%88%EA%B8%B0-%EB%AA%A8%EB%8D%B8%EB%A7%81---%EB%8B%A8%EC%88%9C-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%EC%A0%84-column-drop-%EC%A0%84
+)
+  - [SMOTE 적용 및 불균형 해결](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-2-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B6%88%EA%B7%A0%ED%98%95-%EB%AC%B8%EC%A0%9C-%EC%9D%B8%EC%8B%9D---smote%EC%A0%81%EC%9A%A9-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%EC%A0%84)
+  - [Feature Selection 적용](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-3-%EC%97%B0%EC%82%B0-%ED%9A%A8%EC%9C%A8%EC%84%B1%EA%B3%BC-%EA%B3%BC%EC%A0%81%ED%95%A9-%EB%B0%A9%EC%A7%80---columns-drop-%ED%9B%84-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%ED%9B%84)
+  - [최종 모델 선택 및 평가 지표](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EC%B5%9C%EC%A2%85-%EC%84%A0%ED%83%9D-%EB%AA%A8%EB%8D%B8)
     
 [6. Streamlit 대시보드 구현](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-streamlit-%EA%B5%AC%ED%98%84)
 
