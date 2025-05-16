@@ -1,54 +1,62 @@
-# 🚩**IBM 직원 이탈 예측**
-📅**개발 기간** : 2025.05.15 ~ 2025.05.16
+###### SK네트웍스 Family AI 캠프 13기
+# **🚩IBM 직원 이탈 예측**
+📅 개발 기간 : 2025.05.15 ~ 2025.05.16
 
 
+## **📑 목차**
+* [프로젝트 개요](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
+    * 프로젝트 주제
+    * 프로젝트 목표
+    * 데이터셋 소개
+* [팀원 및 담당 업무](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
+* [사용기술 스택](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
+* [프로젝트 디렉토리 구조](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B5%AC%EC%A1%B0)
+* [탐색적 데이터 분석(EDA)](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%83%90%EC%83%89%EC%A0%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%84%EC%84%9D-eda)
+    * 결측치 처리 및 불필요한 컬럼 제거
+    * 주요 변수 선택 및 차원 축소
+    * 데이터 전처리
+* [모델링 및 성능 개선](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EB%AA%A8%EB%8D%B8%EB%A7%81-%EB%B0%8F-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-%EA%B3%BC%EC%A0%95)
+    * 초기 모델 성능 비교
+    * SMOTE 적용 및 불균형 해결
+    * Feature Selection 적용
+    * 최종 모델 선택 및 평가 지표
+* [Streamlit 대시보드 구현](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-streamlit-%EA%B5%AC%ED%98%84)
+* [인사이트 및 결론](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%EB%B0%8F-%EA%B2%B0%EB%A1%A0)
 
-## 👤 팀원 및 담당 업무
-#### 팀원 소개
-| 구자현                               | 민경재                                | 박현아                        | 우지훈                                                        |
-|--------------------------------------|----------------------------------------|-------------------------------|---------------------------------------------------------------|
-|🐶|🐱|🐰|🐼|
-|<a href="https://github.com/Koojh99"><img src="https://img.shields.io/badge/GitHub-Koojh99-FF585B?logo=github" alt="구자현 GitHub"/></a>|<a href="https://github.com/rudwo524"><img src="https://img.shields.io/badge/GitHub-rudwo524-FF585B?logo=github" alt="민경재 GitHub"/></a>|<a href="https://github.com/hyun-ah-0"><img src="https://img.shields.io/badge/GitHub-hyun--ah--0-FF585B?logo=github" alt="박현아 GitHub"/></a>|<a href="https://github.com/WooZhoon"><img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/></a>|
 
-#### 담당업무
-| 이름     | 역할                        |
-|----------|-----------------------------|
-| 구자현   |모델 학습, 최종모델 선정, ReadMe작성|
-| 민경재   | 모델 학습 , Streamlit 구현, ReadMe작성  |
-| 박현아   | 모델 학습, Streamlit 구현        |
-| 우지훈 |  팀장, 데이터 전처리 및 모델 학습, 최종모델 선정     |
---------------------------------------------------------------
-- SK네트웍스 Family AI 캠프 13기
-- 팀명 : 조 이름 추천해조
---------------------------------------------------------------
-# 📑 목차
-1. 사용기술 스택
-2. 프로젝트 개요 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
-    - 프로젝트 주제
-    - 프로젝트 목표
-    - 데이터셋 소개
-  
-3. 프로젝트 디렉토리 구조 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B5%AC%EC%A1%B0
-)
+## **💡 프로젝트 개요**
+### ✅ 프로젝트 주제
+직원 이탈 원인 분석 및 이탈 예측
+### ✅ 프로젝트 목표
+- 직원 주요 이탈 요인 분석
+- 이탈 확률을 통해, 저/중/고 위험도 분류하여 이탈 예측
+### ✅ 데이터셋 
+> #### 📂 출처
+> <https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset>
+> #### 🧾 설명
+> 이 데이터셋은 IBM의 가상 인사 데이터를 기반으로 구축된 이직(Attrition) 예측 분석용 자료입니다. HR 부서가 직면하는 조직 내 이탈 문제를 해결하기 위해 설계되었으며, 개인 특성, 직무 정보, 근무 환경, 만족도, 성과, 보상 등 다양한 요소가 포함되어 있어 실무에 가까운 분석이 가능합니다.
+> #### 🎯 Target Variable
+> Attrition (범주형) : 이직 여부 (Yes: 이직, No: 재직)
 
-4. 탐색적 데이터 분석(EDA) [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%83%90%EC%83%89%EC%A0%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%84%EC%84%9D-eda)
-    - 결측치 처리 및 불필요한 컬럼 제거
-    - 주요 변수 선택 및 차원 축소
-    - 데이터 전처리
-    
-5. 모델링 및 성능 개선 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EB%AA%A8%EB%8D%B8%EB%A7%81-%EB%B0%8F-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-%EA%B3%BC%EC%A0%95
-)
-    - 초기 모델 성능 비교 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-1-%EC%B4%88%EA%B8%B0-%EB%AA%A8%EB%8D%B8%EB%A7%81---%EB%8B%A8%EC%88%9C-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%EC%A0%84-column-drop-%EC%A0%84
-)
-    - SMOTE 적용 및 불균형 해결 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-2-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B6%88%EA%B7%A0%ED%98%95-%EB%AC%B8%EC%A0%9C-%EC%9D%B8%EC%8B%9D---smote%EC%A0%81%EC%9A%A9-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%EC%A0%84)
-    - Feature Selection 적용 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-3-%EC%97%B0%EC%82%B0-%ED%9A%A8%EC%9C%A8%EC%84%B1%EA%B3%BC-%EA%B3%BC%EC%A0%81%ED%95%A9-%EB%B0%A9%EC%A7%80---columns-drop-%ED%9B%84-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%ED%9B%84)
-    - 최종 모델 선택 및 평가 지표 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EC%B5%9C%EC%A2%85-%EC%84%A0%ED%83%9D-%EB%AA%A8%EB%8D%B8)
-    
-6. Streamlit 대시보드 구현 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-streamlit-%EA%B5%AC%ED%98%84)
 
-7. 인사이트 및 결론 [🔗](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%EB%B0%8F-%EA%B2%B0%EB%A1%A0)
+## **👤 팀원 및 담당 업무**
+팀명 : 조이름추천해조
+#### 🥸 팀원 소개
+| 구자현 | 민경재 | 박현아 | 우지훈 |
+|---|---|---|---|
+| 🐶 | 🐱 | 🐰 | 🐼 |
+|<a href="https://github.com/Koojh99"><img src="https://img.shields.io/badge/GitHub-Koojh99-FF585B?logo=github" alt="구자현 GitHub"/></a>|<a href="https://github.com/rudwo524"><img src="https://img.shields.io/badge/GitHub-rudwo524-FF585B?logo=github" alt="민경재 GitHub"/></a>|<a href="https://github.com/hyun-ah-0"><img src="https://img.shields.io/badge/GitHub-hyun--ah--0-5086C2?logo=github" alt="박현아 GitHub"/></a>|<a href="https://github.com/WooZhoon"><img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/></a>|
 
-## 🔧 기술스택 
+#### 🧑‍💻 담당업무
+| 이름 | 역할 |
+|---|---|
+| 구자현 |모델 학습, 최종모델 선정, ReadMe작성 |
+| 민경재 | 모델 학습 , Streamlit 구현, ReadMe작성 |
+| 박현아 | 모델 학습, Streamlit 구현 |
+| 우지훈 | 팀장, 데이터 전처리 및 모델 학습, 최종모델 선정 |
+
+
+## **🔧 기술스택** 
 ![image](https://github.com/user-attachments/assets/4842b4d2-a7b6-4f79-9465-3b5baa632bb8)
 ![image](https://github.com/user-attachments/assets/edb303e4-5756-4267-999e-0473c443a5b9)
 ![image](https://github.com/user-attachments/assets/d34ac1d9-79ee-4db1-a6a1-5f7a155efeb4)
@@ -60,23 +68,7 @@
 ![image](https://github.com/user-attachments/assets/85046805-be7a-490f-b5c0-0e9bae7b99e3)
 
 
---------------------------------------------------------------
-# 💡 프로젝트 개요
-## ✅ 프로젝트 주제 
-#### 직원 이탈 원인 분석 및 이탈 예측
-## ✅ 프로젝트 목표
-#### - 직원 주요 이탈 요인 분석
-#### - 이탈 확률을 통해, 저/중/고 위험도 분류하여 이탈 예측
-## ✅ 데이터셋 
-### 📂 출처 
-https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
-### 🧾 설명 
-이 데이터셋은 IBM의 가상 인사 데이터를 기반으로 구축된 이직(Attrition) 예측 분석용 자료입니다. HR 부서가 직면하는 조직 내 이탈 문제를 해결하기 위해 설계되었으며, 개인 특성, 직무 정보, 근무 환경, 만족도, 성과, 보상 등 다양한 요소가 포함되어 있어 실무에 가까운 분석이 가능합니다.
-### 🎯 Target Variable
-#### Attrition (범주형) : 이직 여부 (Yes: 이직, No: 재직)
---------------------------------------------------------------
-# 📁 프로젝트 디렉토리 구조
-
+## **📁 프로젝트 디렉토리 구조**
 ```
   project/
   │
@@ -110,9 +102,9 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
   └── .gitignore               # 모델, 캐시, 데이터 제외
 ```
 --------------------------------------------------------------
-# 📊 탐색적 데이터 분석 (EDA)
-## 1) 결측치 처리 및 불필요한 컬럼 제거
-### - 결측치 처리
+## **📊 탐색적 데이터 분석 (EDA)**
+#### 1) 결측치 처리 및 불필요한 컬럼 제거
+##### - 결측치 처리
 (1) **Attrition** : 예측 대상(Target)으로, 결측치는 분석 불가능 -> 결측행 제거 <br> 
 (2) **TotalWorkingYears / YearsAtCompany** : 0으로 나누기 방지용 NaN 처리
 
