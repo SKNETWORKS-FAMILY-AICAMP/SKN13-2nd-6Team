@@ -1,8 +1,9 @@
 # Streamlit
 
 실행
+```
 streamlit run app.py
-
+```
 ## main page
 
 앱 실행 시 초기 진입 화면에 표시되는 메인 페이지 구성 요소입니다:
