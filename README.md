@@ -73,41 +73,33 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
   project/
   │
   ├── data/                    # 데이터셋 (크면 .gitignore)
-  │   └── employees.csv
+  │   ├── datasets.csv
+  │   ├── trainset.csv
+  │   └── testset.csv
   │
   ├── models/                  # 학습된 모델 저장소
-  │   └── churn_model.pkl
+  │   ├── gb_clf.pkl
+  │   ├── lgbm_clf.pkl
+  │   ├── lr_clf.pkl
+  │   ├── rf_clf.pkl
+  │   └── xgb_clf.pkl
   │
   ├── notebooks/               # 분석, 실험용 노트북
-  │   └── 01_EDA.ipynb
+  │   └── done.ipynb
   │
   ├── app/                     # Streamlit 관련 모든 코드
-  │   ├── __init__.py
-  │   ├── main.py              # Streamlit 진입점 (streamlit run app/main.py)
-  │   ├── pages/               # 여러 페이지 구성할 경우 사용 (Streamlit 1.10+)
-  │   │   ├── 1_직원_퇴사_예측.py
-  │   │   ├── 2_일괄_예측_조회.py
-  │   │   └── 3_주요_변수간_상관관계.py
-  │   └── components/          # 그래프, 위젯 등 서브 컴포넌트
-  │       ├── charts.py
-  │       └── layout.py
+  │   ├── app.py               # Streamlit 진입점 (streamlit run app/main.py)
+  │   └── pages/               # 여러 페이지 구성할 경우 사용 (Streamlit 1.10+)
+  │       ├── 1_직원_퇴사_예측.py
+  │       ├── 2_일괄_예측_조회.py
+  │       └── 3_주요_변수간_상관관계.py
   │
-  ├── src/                     # ML/데이터 관련 로직
-  │   ├── __init__.py
-  │   ├── config.py
-  │   ├── data_loader.py       # CSV 불러오기, 전처리
-  │   ├── trainer.py           # 모델 학습
-  │   ├── predictor.py         # 예측 로직 (model.predict)
-  │   └── utils.py
+  ├── utils/                   # ML/데이터 관련 로직
+  │   ├── scaler.pkl           # scaler 파일
+  │   └── utils.py             
   │
-  ├── tests/                   # pytest 기반 테스트 코드
-  │   ├── test_data_loader.py
-  │   └── test_predictor.py
-  │
-  ├── requirements.txt         # 패키지 목록
   ├── README.md                # 프로젝트 설명
-  ├── .gitignore               # 모델, 캐시, 데이터 제외
-  └── run.sh                   # Streamlit 실행용 스크립트 (선택사항)
+  └── .gitignore               # 모델, 캐시, 데이터 제외
 ```
 --------------------------------------------------------------
 # 📊 탐색적 데이터 분석 (EDA)
@@ -287,7 +279,7 @@ plt.show()
 ```
 ![image](https://github.com/user-attachments/assets/5464ebea-b32e-4e88-9229-d4f73c0586c9)
 
-```
+```python
 from sklearn.metrics import roc_auc_score
 
 # 양성 클래스(Attrition = 1)에 대한 확률 예측
@@ -305,7 +297,7 @@ print(f"✅ ROC-AUC score: {roc_auc:.4f}")
 # 🚀 Streamlit 구현
 
 실행
-```
+```bash
 streamlit run app.py
 ```
 ## main page
