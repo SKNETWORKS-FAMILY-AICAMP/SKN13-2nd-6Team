@@ -5,13 +5,13 @@
 ## 👤 팀원 및 담당 업무
 | 이름     | 역할                        |
 |----------|-----------------------------|
-| 구자현   | ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ |
-| 민경재   | ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ        |
-| 박현아   | ㅁㅁㅁㅁㅁㅁㅁㅁ        |
-| 우지훈   | ㅁㅁㅁㅁㅁㅁㅁㅁ          |
+| 구자현   |모델 학습, 최종모델 선정, ReadMe작성|
+| 민경재   | 모델 학습 , Streamlit 구현, ReadMe작성  |
+| 박현아   | 모델 학습, Streamlit 구현        |
+| 우지훈   |  데이터 전처리 및 모델 학습, 최종모델 선정     |
 --------------------------------------------------------------
 - SK네트웍스 Family AI 캠프 13기
-- 팀명 : 6조
+- 팀명 : 조 이름 추천해조
 ## 🔧 기술스택 
 ![image](https://github.com/user-attachments/assets/4842b4d2-a7b6-4f79-9465-3b5baa632bb8)
 ![image](https://github.com/user-attachments/assets/edb303e4-5756-4267-999e-0473c443a5b9)
@@ -35,7 +35,7 @@
 ### - 출처 
 https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
 ### - 설명 
-###### 이 데이터셋은 IBM의 가상 인사 데이터를 기반으로 구축된 이직(Attrition) 예측 분석용 자료입니다. HR 부서가 직면하는 조직 내 이탈 문제를 해결하기 위해 설계되었으며, 개인 특성, 직무 정보, 근무 환경, 만족도, 성과, 보상 등 다양한 요소가 포함되어 있어 실무에 가까운 분석이 가능합니다.
+이 데이터셋은 IBM의 가상 인사 데이터를 기반으로 구축된 이직(Attrition) 예측 분석용 자료입니다. HR 부서가 직면하는 조직 내 이탈 문제를 해결하기 위해 설계되었으며, 개인 특성, 직무 정보, 근무 환경, 만족도, 성과, 보상 등 다양한 요소가 포함되어 있어 실무에 가까운 분석이 가능합니다.
 ### - 🎯 Target Variable
 #### Attrition (범주형) : 이직 여부 (Yes: 이직, No: 재직)
 --------------------------------------------------------------
@@ -95,9 +95,10 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
 | `StandardHours`  | 모든 값이 동일 (예: 80시간)                | 실제 근무 시간과 무관, 예측 변수로 부적절 |
 
 ## 2) 주요 변수 선택 및 차원 축소
-###### 모델의 성능을 높이기 위해 전체 변수 중 Target(Attrition)과의 중요성 분석을 수행하였습니다.<br> 
-###### 분석 결과, target 값과 유의미한 중요성을 가지는 상위 15개 변수만 선별하였으며, 나머지 변수들은 예측 성능에 기여도가 낮다고 판단되어 제거하였습니다.
-###### 📌 Feature Importance 분석 결과
+모델의 성능을 높이기 위해 전체 변수 중 Target(Attrition)과의 중요성 분석을 수행하였습니다.
+
+분석 결과, target 값과 유의미한 중요성을 가지는 상위 15개 변수만 선별하였으며, 나머지 변수들은 예측 성능에 기여도가 낮다고 판단되어 제거하였습니다.
+#### 📌 Feature Importance 분석 결과
 
 | Feature                    | Importance |
 |---------------------------|------------|
@@ -118,8 +119,8 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
 | NumCompaniesWorked        | 0.019836   |
 
 ## 3) 데이터 전처리
-###### (1) 원-핫 인코딩(One-Hot Encoding) : ❌
-###### (2) 라벨 인코딩(Label Encoding)
+#### (1) 원-핫 인코딩(One-Hot Encoding) : ❌
+#### (2) 라벨 인코딩(Label Encoding)
 
 | Feature                    | 설명 |매핑방식|
 |---------------------------|------------------|-----------------|
@@ -134,7 +135,7 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
 # 🧪 모델링 및 성능 개선 과정
 ## ⚙️ 1. 초기 모델링 - 단순 학습 (SMOTE 적용 전, column drop 전)
 ##### 처음에 전체 데이터를 그대로 활용하여, 전처리만 수행한 뒤 다양한 분류 모델 학습
-##### < 모델 성능 비교 및 분석 > 
+#### < 모델 성능 비교 및 분석 > 
 | model                    | accuracy |
 |---------------------------|------------|
 |            Logistic Regression       | 	0.8741   |
@@ -143,22 +144,23 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
 | LightGBM        | 0.8469   |
 | XGBoost             | 0.8571   |
 
-##### 📈 모델 성능은 전반적으로 나쁘지 않지만, 실제 분류 문제에서 단순 정확도만으로 판단하는 것으로 위험할 수 있다고 판단과 성능 개선을 위해 후속 분석 수행.
+📈 모델 성능은 전반적으로 나쁘지 않지만, 실제 분류 문제에서 단순 정확도만으로 판단하는 것으로 위험할 수 있다고 판단과 성능 개선을 위해 후속 분석 수행.
 ## 🔍  성능 개선 
 #### 클래스 비율 확인
-```
+```python
 # 이직 여부 분포 확인
 df['Attrition'].value_counts(normalize=True).plot.pie(autopct='%1.1f%%')
 ```
 ![image](https://github.com/user-attachments/assets/07672410-0e02-4007-be4d-3200ea0d485b)
-##### ✅ 이직한 사람: 약 16%
-##### ✅ 재직 중인 사람: 약 84%
-##### ● Target(Attrition)의 분포를 확인해보니 클래스 불균형이 매우 심각함
-##### ● 모델이 'No'로만 예측해도 약 84% 정확도를 달성할 수 있었기에, 이는 불균형으로 인한 과대평가된 성능이라 판단 <br>
+
+✅ 이직한 사람: 약 16% <br>
+✅ 재직 중인 사람: 약 84%
+* Target(Attrition)의 분포를 확인해보니 클래스 불균형이 매우 심각함
+* 모델이 'No'로만 예측해도 약 84% 정확도를 달성할 수 있었기에, 이는 불균형으로 인한 과대평가된 성능이라 판단 <br>
 
 ## ⚙️ 2. 클래스 불균형 문제 인식 - SMOTE적용 (SMOTE 적용 후, column drop 전)
 ## 🔧 SMOTE 적용을 통한 데이터 균형 조정
-```
+```python
 from imblearn.over_sampling import SMOTE
 
 X = pd.DataFrame(norm_df.drop(columns='Attrition'))
@@ -166,10 +168,10 @@ Y = pd.DataFrame(norm_df.Attrition).values.reshape(-1, 1)
 smote = SMOTE(random_state=42)
 X_resampled, y_resampled = smote.fit_resample(X, y)
 ```
-##### ● SMOTE(Synthetic Minority Over-sampling Technique) 기법 도입 
-##### ● SMOTE기법을 도입하여 minority 클래스인 'Yes(이직)'에 해당하는 샘플을 오버샘플링 
-##### ● SMOTE 적용 후, 이직/재직 클래스 비율 1:1로 조정됨
-##### < 모델 성능 비교 및 분석 > 
+* SMOTE(Synthetic Minority Over-sampling Technique) 기법 도입 
+* SMOTE기법을 도입하여 minority 클래스인 'Yes(이직)'에 해당하는 샘플을 오버샘플링 
+* SMOTE 적용 후, 이직/재직 클래스 비율 1:1로 조정됨
+#### < 모델 성능 비교 및 분석 > 
 | model                    | accuracy |
 |---------------------------|------------|
 |            Logistic Regression       | 	0.8036   |
@@ -178,12 +180,12 @@ X_resampled, y_resampled = smote.fit_resample(X, y)
 | LightGBM        | 0.9312   |
 | XGBoost             | 0.9332   |
 
-##### 📈SMOTE적용 이후 전반적으로 모든 모델의 성능이 눈에 띄게 향상되었으며, 특히 **Random Forest 모델**은 약94%의 정확도를 기록하여 가장 우수한 성능을 보임
+📈 SMOTE적용 이후 전반적으로 모든 모델의 성능이 눈에 띄게 향상되었으며, 특히 **Random Forest 모델**은 약94%의 정확도를 기록하여 가장 우수한 성능을 보임
 ## 🔍  성능 개선
-##### ● SMOTE 적용만으로도 상당한 성능 향상을 이끌어냈지만, 추가적으로 모델의 연산 효율성과 일반화 성능을 향상시키기 위해 Feature Selection을 진행
+* SMOTE 적용만으로도 상당한 성능 향상을 이끌어냈지만, 추가적으로 모델의 연산 효율성과 일반화 성능을 향상시키기 위해 Feature Selection을 진행
 
-##### ● 앞서 수행한 EDA과정에서, 전체 피처들 중에서 Attrition 예측에 유의미한 영향을 주는 상위 15개 변수만 선별하였고, 정보가 거의 없거나 모델에 불필요한 노이즈가 될 수 있는 컬럼 확인.
-```
+* 앞서 수행한 EDA과정에서, 전체 피처들 중에서 Attrition 예측에 유의미한 영향을 주는 상위 15개 변수만 선별하였고, 정보가 거의 없거나 모델에 불필요한 노이즈가 될 수 있는 컬럼 확인.
+```python
 # 중요도 추출
 importances = model.feature_importances_
 feature_names = X.columns
@@ -196,26 +198,101 @@ feature_importance_df = pd.DataFrame({
 
 top_features = feature_importance_df.head(15)
 ```
-###### 📌 Feature Importance 분석 결과
+#### 📌 Feature Importance 분석 결과
 ![image](https://github.com/user-attachments/assets/b9f0f5ed-4bec-41e8-b9ef-efe5c4f640f0)
 
 
 ## ⚙️ 3. 연산 효율성과 과적합 방지 - columns drop 후 학습 (SMOTE 적용 후, column drop 후)
-##### < 모델 성능 비교 및 분석 > 
+#### < 모델 성능 비교 및 분석 > 
 | model                    | accuracy |
 |---------------------------|------------|
 |            Logistic Regression       | 	0.7854  |
-| Random Forest         | 0.9352   |
+| Random Forest         | 0.9473   |
 | Gradient Boosting                  | 0.9170   |
 | LightGBM        | 0.9109   |
 | XGBoost             | 0.9089   |
 
-##### 📈 columns drop 이후에도 Random Forest는 여전히 가장 우수한 성능을 유지했으며, 전체적으로 SMOTE + Feature Selection 조합이 모델 성능과 효율성 모두에 긍정적인 효과를 준 것으로 확인
+📈 columns drop 이후에도 Random Forest는 여전히 가장 우수한 성능을 유지했으며, 전체적으로 SMOTE + Feature Selection 조합이 모델 성능과 효율성 모두에 긍정적인 효과를 준 것으로 확인
 
 ## 📌 최종 선택 모델
+#### RandomForestClassifier
+```python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, recall_score, f1_score
+
+# 모델 학습
+rf_clf = RandomForestClassifier(random_state=42)
+rf_clf.fit(X_train, y_train)
+
+# 예측
+y_pred_rf = rf_clf.predict(X_test)
+
+# 평가 지표 출력
+accuracy = accuracy_score(y_test, y_pred_rf)
+recall = recall_score(y_test, y_pred_rf)
+f1 = f1_score(y_test, y_pred_rf)
+
+print(f"✅ Random Forest 성능 지표")
+print(f"Accuracy : {accuracy:.4f}")
+print(f"Recall   : {recall:.4f}")
+print(f"F1-score : {f1:.4f}")
+```
+✅ Random Forest 성능 지표
+|scoring|value|
+|---|---|
+|Accuracy | 0.9473|
+|Recall   | 0.9205|
+|F1-score | 0.9419|
+
+```python
+cm = confusion_matrix(y_test, y_pred_rf)
+plt.figure(figsize=(5, 4))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=["No", "Yes"], yticklabels=["No", "Yes"])
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title(f"Confusion Matrix (rf)")
+plt.tight_layout()
+plt.savefig('Confusion Matrix (rf).png')
+plt.show()
+```
+![image](https://github.com/user-attachments/assets/5464ebea-b32e-4e88-9229-d4f73c0586c9)
+
+```
+from sklearn.metrics import roc_auc_score
+
+# 양성 클래스(Attrition = 1)에 대한 확률 예측
+y_proba = rf_clf.predict_proba(X_test)[:, 1]
+
+# ROC-AUC 점수 계산
+roc_auc = roc_auc_score(y_test, y_proba)
+
+print(f"✅ ROC-AUC score: {roc_auc:.4f}")
+```
+✅ ROC-AUC score: 0.9855
+
 
 --------------------------------------------------------------
+# 🚀 Streamlit 구현
+--------------------------------------------------------------
+# 🔍 인사이트 및 결론
+## 주요 인사이트
+### 1. 클래스 불균형 문제 해결이 성능 향상에 결정적
+* 초기에 SMOTE(Synthetic Minority Over-sampling Technique)를 적용하지 않았을 때는 이탈 클래스(Attrition=1)의 수가 적어 모델이 해당 케이스를 거의 학습하지 못했습니다.
+* SMOTE 적용 이후, accuracy가 크게 개선되었으며, 특히 이탈자 탐지 성능이 향상되어 업무 적용 가능성이 높아졌습니다.
 
+### 2. 불필요한 변수 제거는 학습 효율 및 해석력 향상에 기여
+* Feature Importance 분석을 통해 상위 15개 중요 변수만 선별하여 모델을 재학습한 결과, 약간의 성능 저하(Accuracy 감소)는 있었으나, 모델이 보다 명확한 변수에 집중하게 되어 모델 해석력과 속도가 향상되었습니다.
 
-### < 이후 과정 >
-### 모델 -> 클래스 불균형때문에 정확도 낮음 (파이 그래프로 클래스 비율 시각화) -> SMOTE 사용이후 모델 -> 모델 중 가장 높은 성능 보이는 것 선정 -> streamlit 구현 화면  -> 인사이트 및 결론 -> + 회고록
+### 3. Random Forest 모델이 높은 성능을 보임
+* 다양한 모델을 비교한 결과, RandomForestClassifier가 전반적으로 가장 높은 Accuracy, Recall, F1-score, ROC-AUC를 보여 실제 업무에 적용 가능한 수준의 예측력을 갖추었습니다.
+
+## 결론 및 시사점
+* SMOTE와 같은 데이터 불균형 처리 기법은 HR 데이터 분석에 필수적인 전처리 요소임을 확인하였습니다.
+* 분석 결과에 따르면, JobLevel, OverTime, JobInvolvement, Age 등은 이직 가능성과 높은 상관관계를 가지므로, HR 전략 수립에 있어 주요 관리 지표로 고려될 수 있습니다. 
+* 최종적으로 개발한 예측 모델 streamlit을 통해 직관적인 시각화 및 사용자 친화적인 예측 도구로 구현되어, 직원마다 이탈율을 예측하여 저/중/고 위험도 분류하여 관리 가능하게 될 수 있습니다.
+---------------------------------------------------------------
+## 회고록
+* 구자현 : 이번 프로젝트를 통해, 비록 가상의 데이터였지만 실제 HR 관리 업무에 필요한 이직(Attrition) 예측 분석의 전 과정을 직접 경험해볼 수 있었습니다. 초기 데이터 전처리부터 모델링, 평가 및 시각화까지 전체 흐름을 수행하면서 실제 실무 적용 가능성을 고려한 분석 사고력을 키울 수 있었습니다. 특히, 다양한 모델을 실험하면서 단순히 정확도에만 의존해서는 안된다는 점, 그리고 클래스 불균형 문제에 대응하기 위한 SMOTE 등의 기법이 실제 예측 성능에 큰 영향을 미친다는 사실을 배울 수 있는 프로젝트가 된 것 같습니다.  
+* 민경재 : 
+* 박현아 : 
+* 우지훈 : 
