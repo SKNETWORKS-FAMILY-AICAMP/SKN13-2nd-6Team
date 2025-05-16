@@ -195,13 +195,13 @@ src_path = os.path.abspath('../notebooks/test/test_test/')
 if src_path not in sys.path:
     sys.path.append(src_path)
 
-from tools import drop_unnecessary_col,mapping
+from utils.utils import drop_unnecessary_col,mapping
 #=======================================================
 
 # 2. 저장된 모델을 불러오기
-with open('../notebooks/test/test_test/rf_clf.pkl','rb') as f1:
+with open('../models/rf_clf.pkl','rb') as f1:
     model = pickle.load(f1)
-with open('../notebooks/test/test_test/dummy_scaler.pkl','rb') as f:
+with open('../utils/scaler.pkl','rb') as f:
     scaler = pickle.load(f)
 
 st.title("📦 대량 이탈 예측 (전처리 완료된 CSV 사용)")

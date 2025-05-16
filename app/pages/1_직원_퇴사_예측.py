@@ -15,18 +15,18 @@ import pandas as pd
 import sys
 import os
 # src 디렉토리를 시스템 경로에 추가
-src_path = os.path.abspath('../notebooks/test/test_test/')
+src_path = os.path.abspath('../')
 if src_path not in sys.path:
     sys.path.append(src_path)
 
-from tools import mapping_for_page_1
+from utils.utils import mapping_for_page_1
 
 #=======================================================
 
 # 2. 저장된 모델을 불러오기
-with open('../notebooks/test/test_test/rf_clf.pkl','rb') as f1:
+with open('../models/rf_clf.pkl','rb') as f1:
     model = pickle.load(f1)
-with open('../notebooks/test/test_test/scaler.pkl','rb') as f:
+with open('../utils/scaler.pkl','rb') as f:
     scaler = pickle.load(f)
 
 # 페이지 1: 이탈 예측 조회
@@ -138,7 +138,7 @@ with st.form("predict_form"):
             #     "<div style='background-color: #ffa4a4; padding: 10px; border-radius: 5px;'>❗ 매우 높은 이탈 위험</div>",unsafe_allow_html=True)
             st.error(f"{level} 단계입니다.")
 
-        elif proba > 0.4:
+        elif proba > 0.3:
             level = "⚠️ 주의"
             pct = round(proba * 100, 2)
             st.metric("퇴사 가능성", f"{pct}%")
@@ -159,7 +159,7 @@ with st.form("predict_form"):
             
             pct = round(val * 100, 2)
             # 영역 비율 (0~1)
-            r1 = 40 / 100
+            r1 = 30 / 100
             r2 = 70 / 100
             rp = pct / 100
 
@@ -268,16 +268,29 @@ with st.form("predict_form"):
 
 
 
-        if proba>0.4:
+        if proba>0.3:
             # 상위 중요 변수 출력
-            st.markdown(
+            if level == "⚠️ 주의":
+                st.markdown(
                 """
                 <h3 style="
                     margin: 0; 
                     padding: 0;             
                     margin-top: -80px; 
                 ">
-                💡 퇴사 이유 주요 요인
+                ⚠️ 필요 시 검토 권장
+                </h3>
+                """,
+                unsafe_allow_html=True)
+            if level == "❗ 위험":
+                st.markdown(
+                """
+                <h3 style="
+                    margin: 0; 
+                    padding: 0;             
+                    margin-top: -80px; 
+                ">
+                ❗ 빠른 시일 내에 검토 필요
                 </h3>
                 """,
                 unsafe_allow_html=True)
