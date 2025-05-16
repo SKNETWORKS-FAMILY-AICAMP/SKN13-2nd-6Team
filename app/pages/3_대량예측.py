@@ -185,66 +185,99 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
+import pickle
+
+#=======================================================
+import sys
+import os
+# src 디렉토리를 시스템 경로에 추가
+src_path = os.path.abspath('../notebooks/test/test_test/')
+if src_path not in sys.path:
+    sys.path.append(src_path)
+
+from tools import drop_unnecessary_col,mapping
+#=======================================================
+
+# 2. 저장된 모델을 불러오기
+with open('../notebooks/test/test_test/xgb_clf.pkl','rb') as f1:
+    model = pickle.load(f1)
+with open('../notebooks/test/test_test/dummy_scaler.pkl','rb') as f:
+    scaler = pickle.load(f)
 
 st.title("📦 대량 이탈 예측 (전처리 완료된 CSV 사용)")
 
-df = pd.read_csv("../data/datasets.csv")
-st.write("데이터 미리보기", df.head(1470))
+batch_file = st.file_uploader("대량 데이터 파일 업로드", type=["csv"])
 
-# 1. 모델 및 feature 목록 불러오기
-@st.cache_resource
-def load_model():
-    return joblib.load("../notebooks/test/xgb.pkl")
-
-@st.cache_resource
-def load_feature_list():
-    return joblib.load("../notebooks/test/preprocessed_columns.pkl")
-
-model = load_model()
-feature_columns = load_feature_list()
-
-# 2. CSV 파일 경로
-csv_path = "../data/processed_datasets.csv"
-
-if not os.path.exists(csv_path):
-    st.error(f"❌ 파일이 존재하지 않습니다: {csv_path}")
-else:
-    # 전처리 전 원본 데이터 로드
-    df_raw = pd.read_csv(csv_path)
-    # st.write("✅ 입력 데이터 (원본)", df_raw.head())
-
+if batch_file:
     try:
-        # 전처리 (예측용 feature 데이터 생성)
-        df = df_raw.copy()
-        for col in feature_columns:
-            if col not in df.columns:
-                df[col] = 0
-        X = df[feature_columns]
+        DF = pd.read_csv(batch_file)
+        st.write("데이터 미리보기", DF.head())
 
-        # 예측
-        prob = model.predict_proba(X)[:, 1]
-        pred = (prob >= 0.5).astype(int)
+        # # 1. 모델 및 feature 목록 불러오기
+        # @st.cache_resource
+        # def load_model():
+        #     return joblib.load("../notebooks/test/xgb.pkl")
+
+        # @st.cache_resource
+        # def load_feature_list():
+        #     return joblib.load("../notebooks/test/preprocessed_columns.pkl")
+
+        # model = load_model()
+        # feature_columns = load_feature_list()
+
+
+        # # 2. CSV 파일 경로
+        # csv_path = "../data/processed_datasets.csv"
+
+        # if not os.path.exists(csv_path):
+        #     st.error(f"❌ 파일이 존재하지 않습니다: {csv_path}")
+        # else:
+        #     # 전처리 전 원본 데이터 로드
+        #     df_raw = pd.read_csv(csv_path)
+        #     # st.write("✅ 입력 데이터 (원본)", df_raw.head())
+
+        #     try:
+        df = DF.copy()
+        df = drop_unnecessary_col(df)
+        df = mapping(df)
+        norm = scaler.transform(df)
+        norm_df = pd.DataFrame(norm, columns=df.columns)
+        proba =  model.predict_proba(norm_df)[:,1]
+
+
+                # # 전처리 (예측용 feature 데이터 생성)
+                # df = df_raw.copy()
+                # for col in feature_columns:
+                #     if col not in df.columns:
+                #         df[col] = 0
+                # X = df[feature_columns]
+
+                # # 예측
+                # prob = model.predict_proba(X)[:, 1]
+                # pred = (prob >= 0.5).astype(int)
 
         def categorize(p):
             if p >= 0.7: return "High"
             elif p >= 0.3: return "Medium"
             return "Low"
 
-        # 원본 데이터에 결과 추가
-        df_raw["Prob_Yes"] = np.round(prob, 4)
-        df_raw["Pred"] = np.where(pred == 1, "이탈", "잔류")
-        df_raw["Grade"] = [categorize(p) for p in prob]
+        DF['Attrition_Prob'] = np.round(proba,4)
 
-        # 확률 높은 순으로 정렬
-        df_sorted = df_raw.sort_values(by="Prob_Yes", ascending=False)
+                # # 원본 데이터에 결과 추가
+                # df_raw["Prob_Yes"] = np.round(prob, 4)
+        DF["Pred"] = np.where(proba>0.5, "이탈", "잔류")
+        DF["Grade"] = [categorize(p) for p in proba]
 
-        # 상위 20개 출력
+                # 확률 높은 순으로 정렬
+        df_sorted = DF.sort_values(by="Attrition_Prob", ascending=False)
+
+                # 상위 20개 출력
         st.subheader("🔍 예측 결과 (이탈 확률 높은 순 Top 20)")
         st.dataframe(df_sorted.head(20))
-        st.dataframe(df_sorted.head(1000)[feature_columns + ["Prob_Yes", "Pred", "Grade"]])  # Dropped Columns 있음
+            # st.dataframe(DF.head(1000)[feature_columns + ["Prob_Yes", "Pred", "Grade"]])  # Dropped Columns 있음
 
         # 전체 결과 다운로드
-        csv = df_raw.to_csv(index=False).encode("utf-8-sig")
+        csv = df_sorted.to_csv(index=False).encode("utf-8-sig")
         st.download_button("📥 결과 다운로드", data=csv, file_name="predicted_attrition.csv", mime="text/csv")
 
     except Exception as e:
