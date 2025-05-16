@@ -294,7 +294,7 @@ print(f"✅ ROC-AUC score: {roc_auc:.4f}")
 
 
 ## **🚀 Streamlit 구현**
-실행
+### run
 ```bash
 streamlit run app.py
 ```
