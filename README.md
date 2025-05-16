@@ -57,7 +57,9 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
   │   ├── __init__.py
   │   ├── main.py              # Streamlit 진입점 (streamlit run app/main.py)
   │   ├── pages/               # 여러 페이지 구성할 경우 사용 (Streamlit 1.10+)
-  │   │   └── dashboard.py
+  │   │   ├── 1_직원_퇴사_예측.py
+  │   │   ├── 2_일괄_예측_조회.py
+  │   │   └── 3_주요_변수간_상관관계.py
   │   └── components/          # 그래프, 위젯 등 서브 컴포넌트
   │       ├── charts.py
   │       └── layout.py
