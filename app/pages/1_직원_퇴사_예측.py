@@ -24,7 +24,7 @@ from tools import mapping_for_page_1
 #=======================================================
 
 # 2. 저장된 모델을 불러오기
-with open('../notebooks/test/test_test/xgb_clf.pkl','rb') as f1:
+with open('../notebooks/test/test_test/rf_clf.pkl','rb') as f1:
     model = pickle.load(f1)
 with open('../notebooks/test/test_test/scaler.pkl','rb') as f:
     scaler = pickle.load(f)
@@ -293,10 +293,10 @@ with st.form("predict_form"):
                 # print(shap_values)
 
                 # SHAP 값 → pandas Series (기여도)
-                shap_df = pd.Series(shap_values[0], index=feature_columns).sort_values(key=lambda x: x.abs(), ascending=False)
+                shap_df = pd.Series(shap_values[0,:,1], index=feature_columns).sort_values(key=lambda x: x.abs(), ascending=False)
                 
                 changeable_feature = [
-                    "Age",
+                    # "Age",
                     "BusinessTravel",
                     # "Department",
                     # "Education",
@@ -307,18 +307,20 @@ with st.form("predict_form"):
                     "JobSatisfaction",
                     # "MaritalStatus",
                     # "NumCompaniesWorked",
-                    "OverTime",
+                    # "OverTime",
                     "RelationshipSatisfaction",
                     "StockOptionLevel",
                     "WorkLifeBalance"
                 ]
+                if input_df['OverTime'].item()==1:
+                    changeable_feature.append('OverTime')
 
                 # 조정 가능한 피처만 필터링하고 상위 5개 선택
                 top5 = shap_df.loc[shap_df.index.intersection(changeable_feature)].head(5).to_dict()
 
 
-                # 상위 5개 피처 + 기여도 값 포함
-                top5 = shap_df.head(5).to_dict()
+                # # 상위 5개 피처 + 기여도 값 포함
+                # top5 = shap_df.head(5).to_dict()
 
                 return {
                     'prediction': int(prediction),

@@ -199,7 +199,7 @@ from tools import drop_unnecessary_col,mapping
 #=======================================================
 
 # 2. 저장된 모델을 불러오기
-with open('../notebooks/test/test_test/xgb_clf.pkl','rb') as f1:
+with open('../notebooks/test/test_test/rf_clf.pkl','rb') as f1:
     model = pickle.load(f1)
 with open('../notebooks/test/test_test/dummy_scaler.pkl','rb') as f:
     scaler = pickle.load(f)
