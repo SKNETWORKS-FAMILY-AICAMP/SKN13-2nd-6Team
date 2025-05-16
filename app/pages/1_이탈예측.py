@@ -11,18 +11,37 @@ from sklearn import preprocessing
 import shap
 import pandas as pd
 
+#=======================================================
+import sys
+import os
+# src 디렉토리를 시스템 경로에 추가
+src_path = os.path.abspath('../notebooks/test/test_test/')
+if src_path not in sys.path:
+    sys.path.append(src_path)
+
+from tools import mapping_for_page_1
+
+#=======================================================
 
 # 2. 저장된 모델을 불러오기
-with open('xgb.pkl','rb') as f:
-    model = pickle.load(f)
-
+with open('../notebooks/test/test_test/xgb_clf.pkl','rb') as f1:
+    model = pickle.load(f1)
+with open('../notebooks/test/test_test/scaler.pkl','rb') as f:
+    scaler = pickle.load(f)
 
 # 페이지 1: 이탈 예측 조회
 
+st.set_page_config(
+    layout="wide",       
+    initial_sidebar_state="auto"
+)
+
 st.title("🔍 이탈 예측 조회")
 
+
+
 with st.form("predict_form"):
-    st.subheader("직원의 정보를 입력하세요")
+    st.subheader("직원의 정보를 입력하세요.")
 
         # 예시 컬럼: 범위 슬라이더 및 체크박스
         # feature importance 상위 15개
@@ -30,7 +49,7 @@ with st.form("predict_form"):
     with left:
         age = st.number_input("나이", value=30)
 
-        Education =st.selectbox("최종학력", ("고등학교 졸업", "전문대 졸업", "학사", "석사", "박사"), index=2)
+        Education =st.selectbox("최종 학력", ("학위 미취득", "전문 학사", "학사", "석사", "박사"), index=2)
 
         EnvironmentSatisfaction = st.selectbox("업무 환경 만족도", ("나쁨", "보통", "좋음", "매우 좋음"), index=1)
 
@@ -58,7 +77,7 @@ with st.form("predict_form"):
         
     left, middle, right = st.columns(3)
     with left:
-        BusinessTravel = st.radio( "출장 빈도수",["거의 안 함", "자주 함", "가본 적 없음"],index=None)
+        BusinessTravel = st.radio( "출장 빈도수",["X", "자주 함", "가본 적 없음"],index=None)
 
     with middle:
         Department = st.radio("부서", ['Sales','Human Resources','Research & Development'],index=None)
@@ -95,104 +114,14 @@ with st.form("predict_form"):
             "WorkLifeBalance":          [WorkLifeBalance]
         })
 
-
-        # =======================================================================
-        # 한글 입력값을 숫자로 매핑
-        input_df['Education'] = input_df['Education'].map({
-            '고등학교 졸업': 1,
-            '전문대 졸업': 2,
-            '학사': 3,
-            '석사': 4,
-            '박사': 5
-        })
-
-        input_df['EnvironmentSatisfaction'] = input_df['EnvironmentSatisfaction'].map({
-            '나쁨': 1,
-            '보통': 2,
-            '좋음': 3,
-            '매우 좋음': 4
-        })
-
-        input_df['JobInvolvement'] = input_df['JobInvolvement'].map({
-            '나쁨': 1,
-            '보통': 2,
-            '좋음': 3,
-            '매우 좋음': 4
-        })
-
-        input_df['JobLevel'] = input_df['JobLevel'].map({
-            '고위 임원': 5,
-            '임원': 4,
-            '중간 관리자': 3,
-            '자문위원': 2,
-            '사원': 1
-        })
-
-        input_df['JobSatisfaction'] = input_df['JobSatisfaction'].map({
-            '나쁨': 1,
-            '보통': 2,
-            '좋음': 3,
-            '매우 좋음': 4
-        })
-
-        input_df['MaritalStatus'] = input_df['MaritalStatus'].map({
-            '미혼': 2,
-            '기혼': 3,
-            '이혼': 4
-        })
-
-        input_df['RelationshipSatisfaction'] = input_df['RelationshipSatisfaction'].map({
-            '나쁨': 1,
-            '보통': 2,
-            '좋음': 3,
-            '매우 좋음': 4
-        })
-
-        input_df['StockOptionLevel'] = input_df['StockOptionLevel'].astype(int)
-
-        input_df['WorkLifeBalance'] = input_df['WorkLifeBalance'].map({
-            '나쁨': 1,
-            '보통': 2,
-            '좋음': 3,
-            '매우 좋음': 4
-        })
-
-        input_df['BusinessTravel'] = input_df['BusinessTravel'].map({
-            '거의 안 함': 2,
-            '자주 함': 3,
-            '가본 적 없음': 4
-        })
-
-        input_df['Department'] = input_df['Department'].map({
-            'Sales':2,
-            'Human Resources':3,
-            'Research & Development':4
-        })
-
-        # input_df['OverTime'] = input_df['OverTime'].astype(int)
-
-        input_df['JobRole'] = input_df['JobRole'].map({
-            'Sales Executive':2,
-            'Manufacturing Director':3,
-            'Healthcare Representative':4,
-            'Manager':2,
-            'Research Director':3,
-            'Laboratory Technician':4,
-            'Sales Representative':2,
-            'Research Scientist':3,
-            'Human Resources':4
-        })
-        # =====================================================================
-
+        input_df = mapping_for_page_1(input_df)
+        
         
         ###
         ## 여기에 scaler
-        with open('scaler.pkl','rb') as f:
-            scaler = pickle.load(f)
-
         norm = scaler.transform(input_df)
         norm_df = pd.DataFrame(norm, columns=input_df.columns)
-        proba =  float(model.predict_proba(norm_df)[:,1])
+        proba =  model.predict_proba(norm_df)[:,1].item()
         
 
         # 3. 모델에 돌려서 1일 확률인 proba 구하기
@@ -268,9 +197,19 @@ with st.form("predict_form"):
                     "color": segments
                 }
             },
+             # ─── 게이지 크기 ───
+            "radius": "100%",         # 기본(75%)보다 키워서, 눈금이 바깥으로 보이게
+
+            # ─── 메이저 눈금(바깥) ───
+            "splitNumber": 10,       # 0,10,20…100
+            "splitLine": {
+                "show": True,
+                "inside": False,     # ← 바깥쪽
+                "length": 10,        # 축 바깥으로 20px
+                "lineStyle": {"width": 2, "color": "#333"}
+            },
             "pointer": {"show": False},
             "axisTick":   {"show": False},
-            "splitLine":  {"show": False},
             "axisLabel":  {"show": False},
             "detail": {
                 "valueAnimation": True,
@@ -330,39 +269,38 @@ with st.form("predict_form"):
 
         # 상위 중요 변수 출력
         st.markdown(
-     """
-    <h3 style="
-        margin: 0; 
-        padding: 0;             
-        margin-top: -80px; 
-    ">
-      💡 퇴사 이유 주요 요인
-    </h3>
-    """,
-    unsafe_allow_html=True)            
+            """
+            <h3 style="
+                margin: 0; 
+                padding: 0;             
+                margin-top: -80px; 
+            ">
+            💡 퇴사 이유 주요 요인
+            </h3>
+            """,
+            unsafe_allow_html=True)
 
         def predict_with_explanation(input_df, model, feature_columns):
-
-
-    # 예측 결과
+            # 예측 결과
             prediction = model.predict(input_df)[0]
             probability = model.predict_proba(input_df)[0][1]  # 퇴사 확률 (Yes 클래스)
 
-    # SHAP 계산기 생성 (Tree 기반 모델용)
+            # SHAP 계산기 생성 (Tree 기반 모델용)
             explainer = shap.TreeExplainer(model)
             shap_values = explainer.shap_values(input_df)
+            # print(shap_values)
 
-    # SHAP 값 → pandas Series (기여도)
-            shap_df = pd.Series(shap_values[0], index=feature_columns).sort_values(key=abs, ascending=False)
+            # SHAP 값 → pandas Series (기여도)
+            shap_df = pd.Series(shap_values[0], index=feature_columns).sort_values(key=lambda x: x.abs(), ascending=False)
 
-    # 상위 5개 피처 + 기여도 값 포함
+            # 상위 5개 피처 + 기여도 값 포함
             top5 = shap_df.head(5).to_dict()
 
             return {
-        'prediction': int(prediction),
-        'probability': float(probability),
-        'top5_features': top5
-    }
+                'prediction': int(prediction),
+                'probability': float(probability),
+                'top5_features': top5
+                }
 
         feature_columns = norm_df.columns
         result = predict_with_explanation(norm_df, model, feature_columns)
@@ -370,13 +308,24 @@ with st.form("predict_form"):
         features = result['top5_features']
 
 
-        for idx, feat in enumerate(features, start=1):
-            kor = translation_dict.get(feat, "번역 없음")
-            if idx == 1:
-                st.markdown(
-        f'<p style="margin: -20px 0 10px 0px; padding: 0;">{kor}</p>',
-        unsafe_allow_html=True)
-            else:
-                st.markdown(
-        f'<p style="margin: 0px 0 10px 0px; padding: 0;">{kor}</p>',
-        unsafe_allow_html=True)
+        feat_items = list(features.items())[:5]
+        cols = st.columns(5)
+
+        for col, (feat, val) in zip(cols, feat_items):
+                with col:
+                    kor = translation_dict.get(feat, "번역 없음")
+                    st.markdown(
+            f"""
+            <div style="
+                margin-top: -50px;
+                background-color: #f9f9f9;
+                padding: 10px;
+                border-radius: 8px;
+                text-align: center;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            ">
+                <strong style="font-size:14px;">{kor}</strong>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )

@@ -26,8 +26,8 @@ def drop_unnecessary_col(data):
 def mapping_for_page_1(input_df):
     # 한글 입력값을 숫자로 매핑
     input_df['Education'] = input_df['Education'].map({
-        '고등학교 졸업': 1,
-        '전문대 졸업': 2,
+        '학위 미취득': 1,
+        '전문 학사': 2,
         '학사': 3,
         '석사': 4,
         '박사': 5
@@ -86,7 +86,7 @@ def mapping_for_page_1(input_df):
     input_df['BusinessTravel'] = input_df['BusinessTravel'].map({
         '거의 안 함': 2,
         '자주 함': 3,
-        '가본 적 없음': 4
+        'X': 4
     })
 
     input_df['Department'] = input_df['Department'].map({
