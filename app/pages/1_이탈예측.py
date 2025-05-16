@@ -9,7 +9,6 @@ import pickle
 import sklearn
 from sklearn import preprocessing
 import shap
-import pandas as pd
 
 #=======================================================
 import sys
@@ -295,8 +294,26 @@ with st.form("predict_form"):
                 # SHAP 값 → pandas Series (기여도)
                 shap_df = pd.Series(shap_values[0], index=feature_columns).sort_values(key=lambda x: x.abs(), ascending=False)
 
+                changeable_feature = [
+                    "Age",
+                    "BusinessTravel",
+                    # "Department",
+                    # "Education",
+                    "EnvironmentSatisfaction",
+                    "JobInvolvement",
+                    # "JobLevel",
+                    # "JobRole",
+                    "JobSatisfaction",
+                    # "MaritalStatus",
+                    # "NumCompaniesWorked",
+                    "OverTime",
+                    "RelationshipSatisfaction",
+                    "StockOptionLevel",
+                    "WorkLifeBalance"
+                ]
+
                 # 상위 5개 피처 + 기여도 값 포함
-                top5 = shap_df.head(5).to_dict()
+                top5 = shap_df.loc[shap_df.index.intersection(changeable_feature)].head(5).to_dict()
 
                 return {
                     'prediction': int(prediction),
