@@ -32,7 +32,7 @@
 ### ✅ 프로젝트 목표
 - 직원 주요 이탈 요인 분석
 - 이탈 확률을 통해, 저/중/고 위험도 분류하여 이탈 예측
-### ✅ 데이터셋 
+### ✅ 데이터셋 소개
 > #### 📂 출처
 > <https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset>
 > #### 🧾 설명
