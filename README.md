@@ -131,5 +131,41 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
 | JobRole   | 직무 (다양한 직무를 2~4 사이 값으로 라벨 매핑)   | ManualMapper |
 
 --------------------------------------------------------------
+# 🧪 모델링 및 성능 개선 과정
+## ⚙️ 1. 초기 모델링 - 단순 학습 (SMOTE 적용 전, column drop 전)
+##### 처음에 전체 데이터를 그대로 활용하여, 전처리만 수행한 뒤 다양한 분류 모델 학습
+##### < 모델 성능 비교 및 분석 > 
+| model                    | accuracy |
+|---------------------------|------------|
+|            Logistic Regression       | 	0.8741   |
+| Random Forest         | 0.8605   |
+| Gradient Boosting                  | 0.8605   |
+| LightGBM        | 0.8469   |
+| XGBoost             | 0.8571   |
+
+##### 📌 모델 성능은 전반적으로 나쁘지 않지만, 실제 분류 문제에서 단순 정확도만으로 판단하는 것으로 위험할 수 있다고 판단과 성능 개선을 위해 후속 분석 수행.
+## 🔍  성능 개선 
+#### 클래스 비율 확인
+```
+# 이직 여부 분포 확인
+df['Attrition'].value_counts(normalize=True).plot.pie(autopct='%1.1f%%')
+```
+![image](https://github.com/user-attachments/assets/07672410-0e02-4007-be4d-3200ea0d485b)
+##### ✅ 이직한 사람: 약 16%
+##### ✅ 재직 중인 사람: 약 84%
+##### ● Target(Attrition)의 분포를 확인해보니 클래스 불균형이 매우 심각함
+##### ● 불균형이 심각하여 ***정확도(Accuracy)***가 높아도 실제로도 이직자를 거의 맞추지 못하는 문제 발생 <br>
+
+## 🔧 SMOTE 적용을 통한 데이터 균형 조정
+```
+from imblearn.over_sampling import SMOTE
+
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X, y)
+```
+##### ● SMOTE 적용 후, 이직/재직 클래스 비율 1:1로 조정됨
+--------------------------------------------------------------
+
+
 ### < 이후 과정 >
 ### 모델 -> 클래스 불균형때문에 정확도 낮음 (파이 그래프로 클래스 비율 시각화) -> SMOTE 사용이후 모델 -> 모델 중 가장 높은 성능 보이는 것 선정 -> streamlit 구현 화면  -> 인사이트 및 결론 -> + 회고록
