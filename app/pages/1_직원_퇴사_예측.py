@@ -294,6 +294,28 @@ with st.form("predict_form"):
 
                 # SHAP 값 → pandas Series (기여도)
                 shap_df = pd.Series(shap_values[0], index=feature_columns).sort_values(key=lambda x: x.abs(), ascending=False)
+                
+                changeable_feature = [
+                    "Age",
+                    "BusinessTravel",
+                    # "Department",
+                    # "Education",
+                    "EnvironmentSatisfaction",
+                    "JobInvolvement",
+                    # "JobLevel",
+                    # "JobRole",
+                    "JobSatisfaction",
+                    # "MaritalStatus",
+                    # "NumCompaniesWorked",
+                    "OverTime",
+                    "RelationshipSatisfaction",
+                    "StockOptionLevel",
+                    "WorkLifeBalance"
+                ]
+
+                # 조정 가능한 피처만 필터링하고 상위 5개 선택
+                top5 = shap_df.loc[shap_df.index.intersection(changeable_feature)].head(5).to_dict()
+
 
                 # 상위 5개 피처 + 기여도 값 포함
                 top5 = shap_df.head(5).to_dict()
@@ -310,13 +332,36 @@ with st.form("predict_form"):
             features = result['top5_features']
 
 
-        for idx, feat in enumerate(features, start=1):
-            kor = translation_dict.get(feat, "번역 없음")
-            if idx == 1:
-                st.markdown(
-        f'<p style="margin: -20px 0 10px 0px; padding: 0;">{kor}</p>',
-        unsafe_allow_html=True)
-            else:
-                st.markdown(
-        f'<p style="margin: 0px 0 10px 0px; padding: 0;">{kor}</p>',
-        unsafe_allow_html=True)
+        # for idx, feat in enumerate(features, start=1):
+        #     kor = translation_dict.get(feat, "번역 없음")
+        #     if idx == 1:
+        #         st.markdown(
+        # f'<p style="margin: -20px 0 10px 0px; padding: 0;">{kor}</p>',
+        # unsafe_allow_html=True)
+        #     else:
+        #         st.markdown(
+        # f'<p style="margin: 0px 0 10px 0px; padding: 0;">{kor}</p>',
+        # unsafe_allow_html=True)
+                
+            feat_items = list(features.items())[:5]
+            cols = st.columns(5)
+
+            for col, (feat, val) in zip(cols, feat_items):
+                with col:
+                    kor = translation_dict.get(feat, "번역 없음")
+                    
+                    st.markdown(
+            f"""
+            <div style="
+                margin-top: -50px;
+                background-color: #f9f9f9;
+                padding: 10px;
+                border-radius: 8px;
+                text-align: center;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            ">
+                <strong style="font-size:14px;">{kor}</strong>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
