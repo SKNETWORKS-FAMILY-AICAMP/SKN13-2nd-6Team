@@ -275,10 +275,12 @@ if batch_file:
         st.subheader("🔍 예측 결과 (이탈 확률 높은 순 Top 20)")
         st.dataframe(df_sorted.head(20))
             # st.dataframe(DF.head(1000)[feature_columns + ["Prob_Yes", "Pred", "Grade"]])  # Dropped Columns 있음
-
+        
         # 전체 결과 다운로드
         csv = df_sorted.to_csv(index=False).encode("utf-8-sig")
-        st.download_button("📥 결과 다운로드", data=csv, file_name="predicted_attrition.csv", mime="text/csv")
+        col1, col2, col3, col4 = st.columns(4)
+        with col4:
+            st.download_button("📥 결과 다운로드", data=csv, file_name="predicted_attrition.csv", mime="text/csv")
 
     except Exception as e:
         st.error(f"❌ 예측 중 오류 발생: {e}")

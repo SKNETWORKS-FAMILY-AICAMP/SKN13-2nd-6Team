@@ -276,7 +276,12 @@ import numpy as np
 import plotly.express as px
 import altair as alt
 
-st.title("📈 선택된 Feature 간 상관관계 분석 (Pearson 고정)")
+st.set_page_config(
+    layout="wide",       # ← 여기!
+    initial_sidebar_state="auto"
+)
+
+st.title("📈 선택된 Feature 간 상관관계 분석")
 
 # 데이터 불러오기
 df = pd.read_csv("../data/datasets.csv")
@@ -318,7 +323,7 @@ corr_matrix = df_collapsed.corr(method=method)
 target_col = st.selectbox("기준 Feature 선택", corr_matrix.columns.tolist())
 
 # 📊 상관계수 막대그래프 (Top 5)
-st.subheader(f"📊 '{target_col}'과의 Pearson 상관관계 (Top 5)")
+st.subheader(f"📊 '{target_col}'과의 상관관계 (Top 5)")
 target_corr_series = corr_matrix[target_col].drop(target_col)
 top5_indices = target_corr_series.abs().sort_values(ascending=False).head(5).index
 target_corr = target_corr_series.loc[top5_indices]
@@ -337,7 +342,7 @@ bar_chart = alt.Chart(corr_df).mark_bar().encode(
 ).properties(
     width=600,
     height=400,
-    title=f"'{target_col}'와의 Pearson 상관관계 (Top 5)"
+    title=f""
 )
 st.altair_chart(bar_chart, use_container_width=True)
 
