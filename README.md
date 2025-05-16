@@ -14,7 +14,7 @@
 - 팀명 : 조 이름 추천해조
 --------------------------------------------------------------
 # 📑 목차
-[1. 사용기술 스택](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#-%EA%B8%B0%EC%88%A0%EC%8A%A4%ED%83%9D) <br>
+[1. 사용기술 스택](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team?tab=readme-ov-file#-%EA%B8%B0%EC%88%A0%EC%8A%A4%ED%83%9D) <br>
 [2. 프로젝트 개요](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
   - 프로젝트 주제
   - 프로젝트 목표
