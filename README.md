@@ -315,9 +315,6 @@ streamlit run app.py
 - Top 20 추출: 이탈 확률 상위 20명 테이블 출력
 - 결과 다운로드: 전체 예측 결과 CSV 파일로 저장 가능
 
-![Image](https://github.com/user-attachments/assets/910f466c-962b-400f-ba9d-e4002b464acf)
-![Image](https://github.com/user-attachments/assets/9680e62d-27ce-47e4-8e5d-987da2462049)
-
 ### user
 
 - 브라우저에서 나타나는 UI에서 대량 데이터 파일 업로드 클릭 -> 전처리된 CSV 파일 선택
@@ -333,6 +330,9 @@ streamlit run app.py
 1. 15개의 주요 피처 간 Pearson 상관계수를 계산
 2. 사용자가 선택한 기준 피처와 나머지 14개의 feature 중 Top 5 상관관계를 막대그래프로 시각화
 3. 전체 피처 간 히트맵을 Plotly로 표시
+
+![Image](https://github.com/user-attachments/assets/910f466c-962b-400f-ba9d-e4002b464acf)
+![Image](https://github.com/user-attachments/assets/9680e62d-27ce-47e4-8e5d-987da2462049)
 
 --------------------------------------------------------------
 # 🔍 인사이트 및 결론
