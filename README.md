@@ -143,7 +143,7 @@ https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset
 | LightGBM        | 0.8469   |
 | XGBoost             | 0.8571   |
 
-##### 📌 모델 성능은 전반적으로 나쁘지 않지만, 실제 분류 문제에서 단순 정확도만으로 판단하는 것으로 위험할 수 있다고 판단과 성능 개선을 위해 후속 분석 수행.
+##### 📈 모델 성능은 전반적으로 나쁘지 않지만, 실제 분류 문제에서 단순 정확도만으로 판단하는 것으로 위험할 수 있다고 판단과 성능 개선을 위해 후속 분석 수행.
 ## 🔍  성능 개선 
 #### 클래스 비율 확인
 ```
@@ -154,16 +154,66 @@ df['Attrition'].value_counts(normalize=True).plot.pie(autopct='%1.1f%%')
 ##### ✅ 이직한 사람: 약 16%
 ##### ✅ 재직 중인 사람: 약 84%
 ##### ● Target(Attrition)의 분포를 확인해보니 클래스 불균형이 매우 심각함
-##### ● 불균형이 심각하여 ***정확도(Accuracy)***가 높아도 실제로도 이직자를 거의 맞추지 못하는 문제 발생 <br>
+##### ● 모델이 'No'로만 예측해도 약 84% 정확도를 달성할 수 있었기에, 이는 불균형으로 인한 과대평가된 성능이라 판단 <br>
 
+## ⚙️ 2. 클래스 불균형 문제 인식 - SMOTE적용 (SMOTE 적용 후, column drop 전)
 ## 🔧 SMOTE 적용을 통한 데이터 균형 조정
 ```
 from imblearn.over_sampling import SMOTE
 
+X = pd.DataFrame(norm_df.drop(columns='Attrition'))
+Y = pd.DataFrame(norm_df.Attrition).values.reshape(-1, 1)
 smote = SMOTE(random_state=42)
 X_resampled, y_resampled = smote.fit_resample(X, y)
 ```
+##### ● SMOTE(Synthetic Minority Over-sampling Technique) 기법 도입 
+##### ● SMOTE기법을 도입하여 minority 클래스인 'Yes(이직)'에 해당하는 샘플을 오버샘플링 
 ##### ● SMOTE 적용 후, 이직/재직 클래스 비율 1:1로 조정됨
+##### < 모델 성능 비교 및 분석 > 
+| model                    | accuracy |
+|---------------------------|------------|
+|            Logistic Regression       | 	0.8036   |
+| Random Forest         | 0.9393   |
+| Gradient Boosting                  | 0.9211   |
+| LightGBM        | 0.9312   |
+| XGBoost             | 0.9332   |
+
+##### 📈SMOTE적용 이후 전반적으로 모든 모델의 성능이 눈에 띄게 향상되었으며, 특히 **Random Forest 모델**은 약94%의 정확도를 기록하여 가장 우수한 성능을 보임
+## 🔍  성능 개선
+##### ● SMOTE 적용만으로도 상당한 성능 향상을 이끌어냈지만, 추가적으로 모델의 연산 효율성과 일반화 성능을 향상시키기 위해 Feature Selection을 진행
+
+##### ● 앞서 수행한 EDA과정에서, 전체 피처들 중에서 Attrition 예측에 유의미한 영향을 주는 상위 15개 변수만 선별하였고, 정보가 거의 없거나 모델에 불필요한 노이즈가 될 수 있는 컬럼 확인.
+```
+# 중요도 추출
+importances = model.feature_importances_
+feature_names = X.columns
+
+# 결과 정리 및 정렬
+feature_importance_df = pd.DataFrame({
+    'Feature': feature_names,
+    'Importance': importances
+}).sort_values(by='Importance', ascending=False)
+
+top_features = feature_importance_df.head(15)
+```
+###### 📌 Feature Importance 분석 결과
+![image](https://github.com/user-attachments/assets/b9f0f5ed-4bec-41e8-b9ef-efe5c4f640f0)
+
+
+## ⚙️ 3. 연산 효율성과 과적합 방지 - columns drop 후 학습 (SMOTE 적용 후, column drop 후)
+##### < 모델 성능 비교 및 분석 > 
+| model                    | accuracy |
+|---------------------------|------------|
+|            Logistic Regression       | 	0.7854  |
+| Random Forest         | 0.9352   |
+| Gradient Boosting                  | 0.9170   |
+| LightGBM        | 0.9109   |
+| XGBoost             | 0.9089   |
+
+##### 📈 columns drop 이후에도 Random Forest는 여전히 가장 우수한 성능을 유지했으며, 전체적으로 SMOTE + Feature Selection 조합이 모델 성능과 효율성 모두에 긍정적인 효과를 준 것으로 확인
+
+## 📌 최종 선택 모델
+
 --------------------------------------------------------------
 
 
