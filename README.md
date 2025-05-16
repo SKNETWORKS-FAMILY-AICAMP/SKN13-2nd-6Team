@@ -161,6 +161,8 @@ df['Attrition'].value_counts(normalize=True).plot.pie(autopct='%1.1f%%')
 ```
 from imblearn.over_sampling import SMOTE
 
+X = pd.DataFrame(norm_df.drop(columns='Attrition'))
+Y = pd.DataFrame(norm_df.Attrition).values.reshape(-1, 1)
 smote = SMOTE(random_state=42)
 X_resampled, y_resampled = smote.fit_resample(X, y)
 ```
@@ -177,6 +179,29 @@ X_resampled, y_resampled = smote.fit_resample(X, y)
 | XGBoost             | 0.9332   |
 
 ##### 📈SMOTE적용 이후 전반적으로 모든 모델의 성능이 눈에 띄게 향상되었으며, 특히 **Random Forest 모델**은 약94%의 정확도를 기록하여 가장 우수한 성능을 보임
+## 🔍  성능 개선
+##### SMOTE 적용만으로도 상당한 성능 향상을 이끌어냈지만, 추가적으로 모델의 연산 효율성과 일반화 성능을 향상시키기 위해 Feature Selection을 진행
+
+##### 앞서 수행한 EDA과정에서, 전체 피처들 중에서 Attrition 예측에 유의미한 영향을 주는 상위 15개 변수만 선별하였고, 정보가 거의 없거나 모델에 불필요한 노이즈가 될 수 있는 컬럼 확인.
+```
+# 중요도 추출
+importances = model.feature_importances_
+feature_names = X.columns
+
+# 결과 정리 및 정렬
+feature_importance_df = pd.DataFrame({
+    'Feature': feature_names,
+    'Importance': importances
+}).sort_values(by='Importance', ascending=False)
+
+top_features = feature_importance_df.head(15)
+```
+###### 📌 Feature Importance 분석 결과
+![image](https://github.com/user-attachments/assets/b9f0f5ed-4bec-41e8-b9ef-efe5c4f640f0)
+
+
+## ⚙️ 2. 클래스 불균형 문제 인식 - SMOTE적용 (SMOTE 적용 후, column drop 전)
+
 --------------------------------------------------------------
 
 
