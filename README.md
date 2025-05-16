@@ -20,21 +20,25 @@
   - 프로젝트 목표
   - 데이터셋 소개 <br>
   
-[3. 프로젝트 디렉토리 구조](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%A3%BC%EC%A0%9C) <br>
-[4. 탐색적 데이터 분석(EDA)](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#-%ED%83%90%EC%83%89%EC%A0%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%84%EC%84%9D-eda)
+[3. 프로젝트 디렉토리 구조](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B5%AC%EC%A1%B0
+)
+
+[4. 탐색적 데이터 분석(EDA)](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%ED%83%90%EC%83%89%EC%A0%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%84%EC%84%9D-eda)
   - 결측치 처리 및 불필요한 컬럼 제거
   - 주요 변수 선택 및 차원 축소
   - 데이터 전처리
     
-[5. 모델링 및 성능 개선](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#-%EB%AA%A8%EB%8D%B8%EB%A7%81-%EB%B0%8F-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-%EA%B3%BC%EC%A0%95)
-  - [초기 모델 성능 비교](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#%EF%B8%8F-1-%EC%B4%88%EA%B8%B0-%EB%AA%A8%EB%8D%B8%EB%A7%81---%EB%8B%A8%EC%88%9C-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%EC%A0%84-column-drop-%EC%A0%84)
-  - [SMOTE 적용 및 불균형 해결](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#%EF%B8%8F-2-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B6%88%EA%B7%A0%ED%98%95-%EB%AC%B8%EC%A0%9C-%EC%9D%B8%EC%8B%9D---smote%EC%A0%81%EC%9A%A9-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%EC%A0%84)
-  - [Feature Selection 적용](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#%EF%B8%8F-3-%EC%97%B0%EC%82%B0-%ED%9A%A8%EC%9C%A8%EC%84%B1%EA%B3%BC-%EA%B3%BC%EC%A0%81%ED%95%A9-%EB%B0%A9%EC%A7%80---columns-drop-%ED%9B%84-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%ED%9B%84)
+[5. 모델링 및 성능 개선](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EB%AA%A8%EB%8D%B8%EB%A7%81-%EB%B0%8F-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-%EA%B3%BC%EC%A0%95
+)
+  - [초기 모델 성능 비교](
+https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-2-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B6%88%EA%B7%A0%ED%98%95-%EB%AC%B8%EC%A0%9C-%EC%9D%B8%EC%8B%9D---smote%EC%A0%81%EC%9A%A9-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%EC%A0%84)
+  - [SMOTE 적용 및 불균형 해결](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#%EF%B8%8F-3-%EC%97%B0%EC%82%B0-%ED%9A%A8%EC%9C%A8%EC%84%B1%EA%B3%BC-%EA%B3%BC%EC%A0%81%ED%95%A9-%EB%B0%A9%EC%A7%80---columns-drop-%ED%9B%84-%ED%95%99%EC%8A%B5-smote-%EC%A0%81%EC%9A%A9-%ED%9B%84-column-drop-%ED%9B%84)
+  - [Feature Selection 적용](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EC%B5%9C%EC%A2%85-%EC%84%A0%ED%83%9D-%EB%AA%A8%EB%8D%B8)
   - [최종 모델 선택 및 평가 지표](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#-%EC%B5%9C%EC%A2%85-%EC%84%A0%ED%83%9D-%EB%AA%A8%EB%8D%B8)
     
-[6. Streamlit 대시보드 구현](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#-%EB%AA%A8%EB%8D%B8%EB%A7%81-%EB%B0%8F-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-%EA%B3%BC%EC%A0%95)
+[6. Streamlit 대시보드 구현](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-streamlit-%EA%B5%AC%ED%98%84)
 
-[7. 인사이트 및 결론](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/edit/main/README.md#-%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%EB%B0%8F-%EA%B2%B0%EB%A1%A0)
+[7. 인사이트 및 결론](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN13-2nd-6Team/blob/main/README.md#-%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%EB%B0%8F-%EA%B2%B0%EB%A1%A0)
 
 ## 🔧 기술스택 
 ![image](https://github.com/user-attachments/assets/4842b4d2-a7b6-4f79-9465-3b5baa632bb8)
